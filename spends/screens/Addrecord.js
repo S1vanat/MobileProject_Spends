@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-const Tab3 = (props) => {
+const Addrecord = (props) => {
  return (
  <View>
- <Text>Welcome to Tab-1 Screen !!</Text>
+ <Text>Welcome to Tsadasds Screen !!</Text>
  </View>
  );
 };
-export default Tab3;
+export default Addrecord;
