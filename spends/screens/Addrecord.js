@@ -66,6 +66,7 @@ export default function Lab3_1() {
         ></Button>
       </View>
       <ScrollView>
+        <Text>รายการที่บันทึก</Text>
         {storage.map((item) => {
           return (
             <View style={styles.view}>
