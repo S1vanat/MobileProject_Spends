@@ -1,14 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
-
-import Tab1 from "../spends/screens/Tab1";
+import Home from "../spends/screens/Home";
 import Tab2 from "../spends/screens/Tab2";
 import Addrecord from "../spends/screens/Addrecord";
 import Tab4 from "../spends/screens/Tab4";
 import Tab5 from "../spends/screens/Tab5";
 
+
 const Tab = createBottomTabNavigator();
+
 
 export default function App() {
   return (
@@ -26,7 +27,7 @@ export default function App() {
                 <AntDesign name="home" size={24} color={color} />
             );
           }
-        }} name="หน้าหลัก" component={Tab1} />
+        }} name="หน้าหลัก" component={Home} />
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {
             return (
