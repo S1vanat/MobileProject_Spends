@@ -13,46 +13,46 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="T1">
+      <Tab.Navigator screenOptions={{
+        headerStyle: { backgroundColor: "orange" },
+        headerTintColor: "black",
+        tabBarActiveTintColor: "orange",
+        tabBarStyle: { backgroundColor: "black" },
+      }} initialRouteName="T1">
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {
             return (
                 <AntDesign name="home" size={24} color={color} />
             );
-          },
-          tabBarOptions: { tabBarActiveTintColor: "blue" },
+          }
         }} name="หน้าหลัก" component={Tab1} />
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {
             return (
                 <AntDesign name="search1" size={24} color={color} />
             );
-          },
-          tabBarOptions: { tabBarActiveTintColor: "blue" },
+          }
         }} name="ตรวจสอบ" component={Tab2} />
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {
             return (
                 <AntDesign name="pluscircleo" size={24} color={color} />
             );
-          },
-          tabBarOptions: { tabBarActiveTintColor: "blue" },
+          }
         }} name="เพิ่มรายการ" component={Addrecord} />
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {
             return (
                 <AntDesign name="barschart" size={24} color={color} />
             );
-          },
-          tabBarOptions: { tabBarActiveTintColor: "blue" },
+          }
         }} name="เปรียบเทียบ" component={Tab4} />
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {
             return (
                 <AntDesign name="bells" size={20} color={color} />
             );
-          },
-          tabBarOptions: { tabBarActiveTintColor: "blue" },
+          }
         }} name="การแจ้งเตือน" component={Tab5} />
       </Tab.Navigator>
     </NavigationContainer>
