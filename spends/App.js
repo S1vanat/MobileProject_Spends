@@ -18,6 +18,7 @@ export default function App() {
         headerTintColor: "black",
         tabBarActiveTintColor: "orange",
         tabBarStyle: { backgroundColor: "black" },
+        headerTitleAlign: 'center'
       }} initialRouteName="T1">
         <Tab.Screen options={{
           tabBarIcon: ({ color }) => {

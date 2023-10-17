@@ -14,7 +14,7 @@ export default function Lab3_1() {
   const [storage, setStorage] = useState([]);
   return (
     <View style={styles.container}>
-      <View style={styles.searchSection}>
+      <View style={styles.rowSection}>
         <TextInput
           style={{
             borderWidth: 1,
@@ -23,6 +23,7 @@ export default function Lab3_1() {
             width: "35%",
             marginVertical: 10,
           }}
+          keyboardType="number-pad"
           value={num}
           onChangeText={setNum}
           placeholder="จำนวน"
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  searchSection: {
+  rowSection: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
