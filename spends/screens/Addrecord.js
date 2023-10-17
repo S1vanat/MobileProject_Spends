@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 export default function Lab3_1() {
   const [text, setText] = useState("");
@@ -16,26 +17,14 @@ export default function Lab3_1() {
     <View style={styles.container}>
       <View style={styles.rowSection}>
         <TextInput
-          style={{
-            borderWidth: 1,
-            borderColor: "#000",
-            padding: 10,
-            width: "35%",
-            marginVertical: 10,
-          }}
+          style={styles.smolinput}
           keyboardType="number-pad"
           value={num}
           onChangeText={setNum}
           placeholder="จำนวน"
         />
         <TextInput
-          style={{
-            borderWidth: 1,
-            borderColor: "#000",
-            padding: 10,
-            width: "35%",
-            marginVertical: 10,
-          }}
+          style={styles.smolinput}
           value={date}
           onChangeText={setDate}
           placeholder="วันที่ / เดือน"
@@ -50,21 +39,39 @@ export default function Lab3_1() {
         value={text}
         onChangeText={setText}
       />
-      <View style={{ width: "70%" }}>
-        <Button
+      <View style={styles.rowSection}>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 12,
+            paddingHorizontal: 20,
+            borderRadius: 10,
+            elevation: 3,
+            backgroundColor: "#13C999",
+            margin: 5
+          }}
           onPress={() => {
             setStorage([...storage, { id: storage.length, name: text }]);
             setText("");
           }}
-          title="บันทึกรายรับ"
-        ></Button>
-        <Button
+        >
+          <Text style={styles.text}>บันทึกรายรับ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 12,
+            paddingHorizontal: 20,
+            borderRadius: 10,
+            elevation: 3,
+            backgroundColor: "#FF6363",
+            margin: 5
+          }}
           onPress={() => {
             setStorage([...storage, { id: storage.length, name: text }]);
             setText("");
           }}
-          title="บันทึกรายจ่าย"
-        ></Button>
+        >
+          <Text style={styles.text}>บันทึกรายจ่าย</Text>
+        </TouchableOpacity>
       </View>
       <ScrollView>
         <Text>รายการที่บันทึก</Text>
@@ -97,7 +104,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     padding: 10,
-    width: "70%",
+    width: "80%",
     marginVertical: 10,
+    borderRadius: 10,
+  },
+  smolinput: {
+    borderWidth: 1,
+    borderColor: "#000",
+    padding: 10,
+    width: "35%",
+    marginVertical: 10,
+    borderRadius: 10,
+    margin: 5,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "#FF6363",
   },
 });
