@@ -9,6 +9,8 @@ import {
 } from "react-native";
 export default function Lab3_1() {
   const [text, setText] = useState("");
+  const [num, setNum] = useState("");
+  const [date, setDate] = useState("");
   const [storage, setStorage] = useState([]);
   return (
     <View style={styles.container}>
@@ -21,8 +23,8 @@ export default function Lab3_1() {
             width: "35%",
             marginVertical: 10,
           }}
-          value={text}
-          onChangeText={setText}
+          value={num}
+          onChangeText={setNum}
           placeholder="จำนวน"
         />
         <TextInput
@@ -33,13 +35,20 @@ export default function Lab3_1() {
             width: "35%",
             marginVertical: 10,
           }}
-          value={text}
-          onChangeText={setText}
+          value={date}
+          onChangeText={setDate}
           placeholder="วันที่ / เดือน"
         />
       </View>
       <Text>รายละเอียด</Text>
-      <TextInput style={styles.input} numberOfLines={4} value={text} onChangeText={setText} />
+      <TextInput
+        style={styles.input}
+        editable
+        multiline
+        numberOfLines={4}
+        value={text}
+        onChangeText={setText}
+      />
       <View style={{ width: "70%" }}>
         <Button
           onPress={() => {
