@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { Button, Input } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import firebase from "../database/firebaseDB";
 
 class Addrecord extends Component {
@@ -20,7 +20,8 @@ class Addrecord extends Component {
       money: "",
       date: "",
       info: "",
-      type: ""
+      type: "",
+      save_list: [],
     };
   }
 
@@ -36,7 +37,7 @@ class Addrecord extends Component {
         money: this.state.money,
         date: this.state.date,
         info: this.state.info,
-        type: "income",
+        type: "รายรับ",
       })
       .then((res) => {
         this.setState({
@@ -54,7 +55,7 @@ class Addrecord extends Component {
         money: this.state.money,
         date: this.state.date,
         info: this.state.info,
-        type: "expenses",
+        type: "รายจ่าย",
       })
       .then((res) => {
         this.setState({
@@ -64,6 +65,32 @@ class Addrecord extends Component {
           type: ""
         });
       });
+  }
+
+  getCollection = (querySnapshot) => {
+    const all_data = [];
+    querySnapshot.forEach((res) => {
+      const { money, date, info, type } = res.data();
+      all_data.push({
+        key: res.id,
+        money,
+        date,
+        info,
+        type,
+      });
+    });
+
+    this.setState({
+      save_list: all_data,
+    });
+  };
+
+  componentDidMount() {
+    this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {
@@ -121,6 +148,14 @@ class Addrecord extends Component {
             <Text style={styles.text}>บันทึกรายจ่าย</Text>
           </TouchableOpacity>
         </View>
+        <Text>รายการที่บันทึก</Text>
+        <ScrollView>
+        {this.state.save_list.map((item, i) => {
+          return (
+            <Text>({item.date}) {item.type}: "{item.info}" {item.money} บาท</Text>
+          );
+        })}
+      </ScrollView>
       </View>
     );
   }
