@@ -1,94 +1,111 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  Button,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-export default function Lab3_1() {
-  const [text, setText] = useState("");
-  const [num, setNum] = useState("");
-  const [date, setDate] = useState("");
-  const [storage, setStorage] = useState([]);
-  return (
-    <View style={styles.container}>
-      <View style={styles.rowSection}>
+import { Button, Input } from "react-native-elements";
+import firebase from "../database/firebaseDB";
+
+class Addrecord extends Component {
+  constructor() {
+    super();
+
+    this.saveCollection = firebase.firestore().collection("records");
+
+    this.state = {
+      money: "",
+      date: "",
+      info: "",
+      type: ""
+    };
+  }
+
+  inputValueUpdate = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  };
+
+  storeSubject() {
+    this.saveCollection
+      .add({
+        money: this.state.money,
+        date: this.state.date,
+        info: this.state.info,
+        type: this.state.type,
+      })
+      .then((res) => {
+        this.setState({
+          money: "",
+          date: "",
+          info: "",
+          type: ""
+        });
+      });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.rowSection}>
+          <TextInput
+            style={styles.smolinput}
+            keyboardType="number-pad"
+            value={this.state.money}
+            onChangeText={(val) => this.inputValueUpdate(val, "money")}
+            placeholder="จำนวน"
+          />
+          <TextInput
+            style={styles.smolinput}
+            value={this.state.date}
+            onChangeText={(val) => this.inputValueUpdate(val, "date")}
+            placeholder="วันที่ / เดือน"
+          />
+        </View>
+        <Text>รายละเอียด</Text>
         <TextInput
-          style={styles.smolinput}
-          keyboardType="number-pad"
-          value={num}
-          onChangeText={setNum}
-          placeholder="จำนวน"
+          style={styles.input}
+          editable
+          multiline
+          numberOfLines={4}
+          value={this.state.info}
+          onChangeText={(val) => this.inputValueUpdate(val, "info")}
         />
-        <TextInput
-          style={styles.smolinput}
-          value={date}
-          onChangeText={setDate}
-          placeholder="วันที่ / เดือน"
-        />
+        <View style={styles.rowSection}>
+          <TouchableOpacity
+            style={{
+              paddingVertical: 12,
+              paddingHorizontal: 20,
+              borderRadius: 10,
+              elevation: 3,
+              backgroundColor: "#13C999",
+              margin: 5,
+            }}
+            onPress={() => this.storeSubject()}
+          >
+            <Text style={styles.text}>บันทึกรายรับ</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              paddingVertical: 12,
+              paddingHorizontal: 20,
+              borderRadius: 10,
+              elevation: 3,
+              backgroundColor: "#FF6363",
+              margin: 5,
+            }}
+            onPress={() => this.storeSubject()}
+          >
+            <Text style={styles.text}>บันทึกรายจ่าย</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <Text>รายละเอียด</Text>
-      <TextInput
-        style={styles.input}
-        editable
-        multiline
-        numberOfLines={4}
-        value={text}
-        onChangeText={setText}
-      />
-      <View style={styles.rowSection}>
-        <TouchableOpacity
-          style={{
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            borderRadius: 10,
-            elevation: 3,
-            backgroundColor: "#13C999",
-            margin: 5
-          }}
-          onPress={() => {
-            setStorage([...storage, { id: storage.length, sen: "รายรับ", name: text, money: num, date: date }]);
-            setText("");
-            setNum("");
-            setDate("");
-          }}
-        >
-          <Text style={styles.text}>บันทึกรายรับ</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            borderRadius: 10,
-            elevation: 3,
-            backgroundColor: "#FF6363",
-            margin: 5
-          }}
-          onPress={() => {
-            setStorage([...storage, { id: storage.length, sen: "รายจ่าย", name: text, money: num, date: date }]);
-            setText("");
-            setNum("");
-            setDate("");
-          }}
-        >
-          <Text style={styles.text}>บันทึกรายจ่าย</Text>
-        </TouchableOpacity>
-      </View>
-      <ScrollView>
-        <Text>รายการที่บันทึก</Text>
-        {storage.map((item) => {
-          return (
-            <View style={styles.view}>
-              <Text style={{ fontSize: 18 }}>({item.date}) {item.sen} : {item.name} {item.money} บาท</Text>
-            </View>
-          );
-        })}
-      </ScrollView>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -131,3 +148,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6363",
   },
 });
+
+export default Addrecord;

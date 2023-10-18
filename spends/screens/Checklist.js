@@ -18,15 +18,14 @@ class Checklist extends Component {
   getCollection = (querySnapshot) => {
     const all_data = [];
     querySnapshot.forEach((res) => {
-        // console.log("res: ", res);
-        // console.log("res.data() : ", res.data());
+      // console.log("res: ", res);
+      // console.log("res.data() : ", res.data());
 
       const { description, type } = res.data();
       all_data.push({
         key: res.id,
         description,
-        type
-        
+        type,
       });
     });
     // console.log("all_data : ", all_data);
@@ -44,23 +43,22 @@ class Checklist extends Component {
   }
 
   render() {
-    const {navigation} = this.props
+    const { navigation } = this.props;
     return (
       <ScrollView>
         {this.state.subject_list.map((item, i) => {
-  return (
-    <TouchableOpacity key={i}>
-      <ListItem key={i} bottomDivider>
-        <ListItem.Content>
-          <ListItem.Title>{item.description}</ListItem.Title>
-          <ListItem.Subtitle>{item.type}</ListItem.Subtitle>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-    </TouchableOpacity>
-  );
-})}
-
+          return (
+            <TouchableOpacity key={i}>
+              <ListItem key={i} bottomDivider>
+                <ListItem.Content>
+                  <ListItem.Title>{item.description}</ListItem.Title>
+                  <ListItem.Subtitle>{item.type}</ListItem.Subtitle>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
     );
   }
