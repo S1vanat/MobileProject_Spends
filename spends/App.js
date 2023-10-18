@@ -3,8 +3,9 @@ import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+
 import Home from "../spends/screens/Home";
-import Tab2 from "../spends/screens/Tab2";
+import Checklist from "./screens/Checklist";
 import Addrecord from "../spends/screens/Addrecord";
 import Tab4 from "../spends/screens/Tab4";
 import Tab5 from "../spends/screens/Tab5";
@@ -20,9 +21,10 @@ export default function App() {
             headerStyle: { backgroundColor: "orange" },
             headerTintColor: "black",
             tabBarActiveTintColor: "orange",
-            tabBarStyle: { backgroundColor: "black", flexDirection: 'row', justifyContent: 'space-between' },
-            headerTitleAlign: 'center'
+            tabBarStyle: { backgroundColor: "black", flexDirection: 'row', justifyContent: 'space-between', height:90 },
+            headerTitleAlign: 'center',
           }}
+          
           initialRouteName="T1"
         >
           <Tab.Screen
@@ -41,7 +43,7 @@ export default function App() {
               ),
             }}
             name="ตรวจสอบ"
-            component={Tab2}
+            component={Checklist}
           />
           <Tab.Screen
             name="เพิ่มรายการ"
