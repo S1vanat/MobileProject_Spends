@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -25,7 +26,9 @@ const Home = (props) => {
           >
             <Text style={styles.imageText}>บันทึก</Text>
           </ImageBackground>
-          <Text>บันทึกรายรับ - รายจ่ายของคุณ</Text>
+          <TouchableOpacity>
+            <Text>บันทึกรายรับ - รายจ่ายของคุณ</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.card}>
           <ImageBackground

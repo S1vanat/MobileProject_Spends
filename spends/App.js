@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import Home from "../spends/screens/Home";
 import Tab2 from "../spends/screens/Tab2";
 import Addrecord from "../spends/screens/Addrecord";
@@ -47,7 +47,7 @@ export default function App() {
             name="เพิ่มรายการ"
             component={Addrecord}
             options={{
-              
+
               tabBarIcon: ({ color }) => (
                 <View style={styles.iconContainer}>
                   <AntDesign name="pluscircleo" size={50} color={color} />
@@ -81,14 +81,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    backgroundColor:"black",
-    borderRadius:80,
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "black",
+    borderRadius: 80,
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
     bottom: 0,
     zIndex: 1,
-    width:70,
-    height:70
+    width: 70,
+    height: 70,
   },
 });
