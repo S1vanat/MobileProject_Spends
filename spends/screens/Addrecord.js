@@ -50,8 +50,10 @@ export default function Lab3_1() {
             margin: 5
           }}
           onPress={() => {
-            setStorage([...storage, { id: storage.length, name: text }]);
+            setStorage([...storage, { id: storage.length, sen: "รายรับ", name: text, money: num, date: date }]);
             setText("");
+            setNum("");
+            setDate("");
           }}
         >
           <Text style={styles.text}>บันทึกรายรับ</Text>
@@ -66,8 +68,10 @@ export default function Lab3_1() {
             margin: 5
           }}
           onPress={() => {
-            setStorage([...storage, { id: storage.length, name: text }]);
+            setStorage([...storage, { id: storage.length, sen: "รายจ่าย", name: text, money: num, date: date }]);
             setText("");
+            setNum("");
+            setDate("");
           }}
         >
           <Text style={styles.text}>บันทึกรายจ่าย</Text>
@@ -78,7 +82,7 @@ export default function Lab3_1() {
         {storage.map((item) => {
           return (
             <View style={styles.view}>
-              <Text style={{ fontSize: 18 }}>{item.name}</Text>
+              <Text style={{ fontSize: 18 }}>({item.date}) {item.sen} : {item.name} {item.money} บาท</Text>
             </View>
           );
         })}
