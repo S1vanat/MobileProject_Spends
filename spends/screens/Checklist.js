@@ -123,12 +123,13 @@ class Checklist extends Component {
             height: 450,
             width: 380,
             backgroundColor:"white",
-            borderRadius:10,
+            borderRadius:20,
             justifyContent:"center",
+            overflow: 'hidden'
             
           }}
         >
-          <ScrollView>
+          <ScrollView style={{ flex: 1 }}>
             {this.state.subject_list
               .filter((item) => {
                 const isMonthMatch =
