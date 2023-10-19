@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { ScrollView, Image, Touchable, TouchableOpacity } from "react-native";
+import { ScrollView, Image, Touchable, TouchableOpacity, Button } from "react-native";
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
-// import Example03 from "./Example03";
 
 class Checklist extends Component {
   constructor() {
@@ -18,17 +17,21 @@ class Checklist extends Component {
   getCollection = (querySnapshot) => {
     const all_data = [];
     querySnapshot.forEach((res) => {
-      // console.log("res: ", res);
-      // console.log("res.data() : ", res.data());
-
-      const { description, type } = res.data();
+      const { description, type, price, day, category } = res.data();
+      // แปลง timestamp เป็น Date object
+      const dateObject = new Date(day.seconds * 1000); // คูณด้วย 1000 เพื่อแปลงเป็นมิลลิวินาที
       all_data.push({
         key: res.id,
         description,
         type,
+        price,
+        day: dateObject, // แปลงเป็นสตริงที่แสดงวันที่และเวลา
+        category,
       });
     });
-    // console.log("all_data : ", all_data);
+  
+    all_data.sort((a, b) => b.day - a.day);
+
     this.setState({
       subject_list: all_data,
     });
@@ -49,10 +52,13 @@ class Checklist extends Component {
         {this.state.subject_list.map((item, i) => {
           return (
             <TouchableOpacity key={i}>
+
               <ListItem key={i} bottomDivider>
                 <ListItem.Content>
-                  <ListItem.Title>{item.description}</ListItem.Title>
-                  <ListItem.Subtitle>{item.type}</ListItem.Subtitle>
+                  <ListItem.Title>{item.description} {item.price} บาท</ListItem.Title>
+                  <ListItem.Subtitle>ประเภท: {item.type}</ListItem.Subtitle>
+                  <ListItem.Subtitle>หมวดหมู่: {item.category}</ListItem.Subtitle>
+                  <ListItem.Subtitle>วันที่: {item.day.toLocaleString('en-US')}</ListItem.Subtitle>
                 </ListItem.Content>
                 <ListItem.Chevron />
               </ListItem>

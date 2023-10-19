@@ -121,7 +121,7 @@ class Addrecord extends Component {
           onChangeText={(val) => this.inputValueUpdate(val, "info")}
         />
         <View style={styles.rowSection}>
-          <TouchableOpacity
+          <TouchableOpacity 
             style={{
               paddingVertical: 12,
               paddingHorizontal: 20,
