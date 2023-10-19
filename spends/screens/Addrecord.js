@@ -30,31 +30,13 @@ class Addrecord extends Component {
     this.setState(state);
   };
 
-  storeIncome() {
+  storeInfomation() {
     this.saveCollection
       .add({
         money: this.state.money,
         date: this.state.date,
         info: this.state.info,
-        type: "รายรับ",
-      })
-      .then((res) => {
-        this.setState({
-          money: "",
-          date: "",
-          info: "",
-          type: ""
-        });
-      });
-  }
-
-  storeExpenses() {
-    this.saveCollection
-      .add({
-        money: this.state.money,
-        date: this.state.date,
-        info: this.state.info,
-        type: "รายจ่าย",
+        type: this.state.type,
       })
       .then((res) => {
         this.setState({
@@ -129,7 +111,7 @@ class Addrecord extends Component {
               backgroundColor: "#13C999",
               margin: 5,
             }}
-            onPress={() => this.storeIncome()}
+            onPress={() => {this.inputValueUpdate("รายรับ", "type"); this.storeInfomation();}}
           >
             <Text style={styles.text}>บันทึกรายรับ</Text>
           </TouchableOpacity>
@@ -142,7 +124,7 @@ class Addrecord extends Component {
               backgroundColor: "#FF6363",
               margin: 5,
             }}
-            onPress={() => this.storeExpenses()}
+            onPress={() => {this.inputValueUpdate("รายจ่าย", "type"); this.storeInfomation();}}
           >
             <Text style={styles.text}>บันทึกรายจ่าย</Text>
           </TouchableOpacity>
