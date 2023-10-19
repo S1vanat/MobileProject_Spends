@@ -1,83 +1,81 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  Image,
   ScrollView,
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Home = (props) => {
-  return (
-    <ScrollView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Text style={{ fontSize: 30, fontWeight: "bold", padding: 10 }}>
-          รายการที่แนะนำ
-        </Text>
-        <View style={styles.card}>
-          <ImageBackground
-            imageStyle={{ borderRadius: 10 }}
-            source={require("../assets/1000image.png")}
-            style={styles.backgroundImage}
-          >
-            <Text style={styles.imageText}>บันทึก</Text>
-          </ImageBackground>
-          <TouchableOpacity>
-            <Text>บันทึกรายรับ - รายจ่ายของคุณ</Text>
+class Home extends Component {
+  render() {
+    return (
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Text style={{ fontSize: 30, fontWeight: "bold", padding: 10 }}>
+            รายการที่แนะนำ
+          </Text>
+          <TouchableOpacity style={styles.card} onPress={() => this.props.navigation.navigate("เพิ่มรายการ")}>
+            <ImageBackground
+              imageStyle={{ borderRadius: 10 }}
+              source={require("../assets/1000image.png")}
+              style={styles.backgroundImage}
+            >
+              <Text style={styles.imageText}>บันทึก</Text>
+            </ImageBackground>
+              <Text>บันทึกรายรับ - รายจ่ายของคุณ</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.card}>
-          <ImageBackground
-            source={require("../assets/1001.png")}
-            imageStyle={{ borderRadius: 10 }}
-            style={{
-              width: "100%",
-              height: 180,
-              marginBottom: 10,
-              borderRadius: 10,
-            }}
-          >
-            <Text style={styles.imageText}>ตรวจสอบรายการ</Text>
-          </ImageBackground>
-          <Text>คุณใช้จ่ายไปแล้ว</Text>
-          {/* ตรงนี้เดี๋ยวใส่เปอเซ้นที่จ่ายไปแล้ว */}
-        </View>
-        {/* <View style={styles.card}>
+          <TouchableOpacity style={styles.card} onPress={() => this.props.navigation.navigate("ตรวจสอบ")}>
+            <ImageBackground
+              source={require("../assets/1001.png")}
+              imageStyle={{ borderRadius: 10 }}
+              style={{
+                width: "100%",
+                height: 180,
+                marginBottom: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Text style={styles.imageText}>ตรวจสอบรายการ</Text>
+            </ImageBackground>
+            <Text>คุณใช้จ่ายไปแล้ว</Text>
+            {/* ตรงนี้เดี๋ยวใส่เปอเซ้นที่จ่ายไปแล้ว */}
+          </TouchableOpacity>
+          {/* <View style={styles.card}>
         <Text>คุณใช้จ่ายไปแล้ว</Text>
       </View> */}
 
-        <Text style={{ fontSize: 20, padding: 20 }}>รายการอื่นๆ</Text>
+          <Text style={{ fontSize: 20, padding: 20 }}>รายการอื่นๆ</Text>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={styles.smolcard}>
-            <View style={styles.insmolcard}>
-              <Ionicons name="bar-chart-outline" size={32} color="orange" />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.smolcard}>
+              <View style={styles.insmolcard}>
+                <Ionicons name="bar-chart-outline" size={32} color="orange" />
+              </View>
+              <Text style={styles.textsmol}>สถิติ</Text>
             </View>
-            <Text style={styles.textsmol}>สถิติ</Text>
-          </View>
 
-          <View style={styles.smolcard}>
-            <View style={styles.insmolcard}>
-              <Ionicons name="podium-outline" size={32} color="orange" />
-            </View>
-            <Text style={styles.textsmol}>เปรียบเทียบรายจ่าย</Text>
-          </View>
+            <TouchableOpacity style={styles.smolcard} onPress={() => this.props.navigation.navigate("เปรียบเทียบ")}>
+              <View style={styles.insmolcard}>
+                <Ionicons name="podium-outline" size={32} color="orange" />
+              </View>
+              <Text style={styles.textsmol}>เปรียบเทียบรายจ่าย</Text>
+            </TouchableOpacity>
 
-          <View style={styles.smolcard}>
-            <View style={styles.insmolcard}>
-              <Ionicons name="calendar-outline" size={32} color="orange" />
-            </View>
-            <Text style={styles.textsmol}>ตารางการแจ้งเตือน</Text>
-          </View>
-        </ScrollView>
-      </View>
-    </ScrollView>
-  );
-};
+            <TouchableOpacity style={styles.smolcard} onPress={() => this.props.navigation.navigate("การแจ้งเตือน")}>
+              <View style={styles.insmolcard}>
+                <Ionicons name="calendar-outline" size={32} color="orange" />
+              </View>
+              <Text style={styles.textsmol}>ตารางการแจ้งเตือน</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -7,7 +7,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { ListItem } from "react-native-elements";
 import firebase from "../database/firebaseDB";
 
 class Addrecord extends Component {
