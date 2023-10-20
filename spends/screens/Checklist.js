@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   Button,
   View,
+  Text
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
+import { Ionicons } from "@expo/vector-icons";
 
 class Checklist extends Component {
   constructor() {
@@ -80,14 +82,40 @@ class Checklist extends Component {
     const categ = [
       { label: "หมวดหมู่", value: "all" },
       { label: "ทำงาน", value: "ทำงาน" },
-      { label: "ลงทุน", value: "ลงทุน" },
-      
+      { label: "ลงทุน", value: "การลงทุน" },
+
       { label: "อาหาร", value: "อาหาร" },
       { label: "เดินทาง", value: "เดินทาง" },
       { label: "ผ่อนสินค้า", value: "ผ่อนสินค้า" },
-      { label: "ของใช้", value: "ซื้อของใช้" },
-      
+      { label: "ซื้อของใช้", value: "ซื้อของใช้" },
     ];
+
+
+    const filteredItems = this.state.subject_list.filter((item) => {
+      const isMonthMatch =
+        this.state.selectedMonth === "all" ||
+        new Date(item.day).toLocaleString("en-US", {
+          month: "long",
+        }) === this.state.selectedMonth;
+      const isTypeMatch =
+        this.state.selectedType === "all" ||
+        item.type === this.state.selectedType;
+      const isCateMatch =
+        this.state.selectedCate === "all" ||
+        item.category === this.state.selectedCate;
+      return isMonthMatch && isTypeMatch && isCateMatch;
+    });
+  
+    const totalIncome = filteredItems
+      .filter((item) => item.type === "รายรับ")
+      .reduce((acc, item) => acc + item.price, 0);
+  
+    const totalExpense = filteredItems
+      .filter((item) => item.type === "รายจ่าย")
+      .reduce((acc, item) => acc + item.price, 0);
+  
+    const showIncomeView = this.state.selectedType === "รายรับ" || this.state.selectedType === "all";
+    const showExpenseView = this.state.selectedType === "รายจ่าย" || this.state.selectedType === "all";
 
     return (
       <View>
@@ -110,6 +138,7 @@ class Checklist extends Component {
             <Picker.Item key={index} label={month.label} value={month.value} />
           ))}
         </Picker>
+        
         <Picker
           selectedValue={this.state.selectedType}
           onValueChange={(itemValue) => {
@@ -122,10 +151,12 @@ class Checklist extends Component {
             zIndex: 1,
           }}
         >
-          {types.map((type, index) => (
+          {types
+          .map((type, index) => (
             <Picker.Item key={index} label={type.label} value={type.value} />
           ))}
         </Picker>
+
         <Picker
           selectedValue={this.state.selectedCate}
           onValueChange={(itemValue) => {
@@ -134,21 +165,31 @@ class Checklist extends Component {
           style={{
             height: 50,
             width: 200,
-            alignSelf:"center",
+            alignSelf: "center",
             top: -50,
             zIndex: 1,
           }}
         >
-          {categ.map((categ, index) => (
-            <Picker.Item key={index} label={categ.label} value={categ.value} />
+          {categ
+            .filter((c) => {
+              if (this.state.selectedType === "รายรับ") {
+                return c.value === "ทำงาน" || c.value === "ลงทุน" || c.value === "all";
+              } else if (this.state.selectedType === "รายจ่าย") {
+                return c.value === "อาหาร" || c.value === "เดินทาง" || c.value === "all" || c.value === "ผ่อนสินค้า" || c.value === "ซื้อของใช้";
+              }
+              return true;
+            })
+            .map((categ, index) => (
+              <Picker.Item key={index} label={categ.label} value={categ.value} />
           ))}
         </Picker>
+
         <View
           style={{
-            marginTop:20,
+            marginTop:-40,
             margin:8,
             height: 350,
-            width: 380,
+            width: 370,
             backgroundColor:"white",
             borderRadius:20,
             justifyContent:"center",
@@ -181,32 +222,56 @@ class Checklist extends Component {
                     <ListItem
                       key={i}
                       bottomDivider
-                      containerStyle={{
-                        backgroundColor:
-                          item.type === "รายจ่าย" ? "#fcc7c2" : "#ccfccf",
-                      }}
+                      // containerStyle={{
+                      //   backgroundColor:
+                      //     item.type === "รายจ่าย" ? "#fcc7c2" : "#ccfccf",
+                      // }}
                     >
                       <ListItem.Content
                         style={{
                           flexDirection: "row",
                           justifyContent: "space-between",
+                          justifyContent: "flex-start"
                         }}
                       >
+                        <Ionicons
+                          name={
+                            item.category === "เดินทาง"
+                              ? "bicycle-outline"
+                              : item.category === "อาหาร"
+                              ? "fast-food-outline"
+                              : item.category === "ผ่อนสินค้า"
+                              ? "card-outline"
+                              : item.category === "ซื้อของใช้"
+                              ? "cart-outline"
+                              : item.category === "ทำงาน"
+                              ? "briefcase-outline"
+                              : "podium-outline"
+                          }
+                          size={24}
+                          color="black"
+                          style={{ marginRight: 13,  paddingTop:8}}
+                        />
                         <View>
-                          <ListItem.Title>{item.description}</ListItem.Title>
-                          {/* <ListItem.Subtitle>ประเภท: {item.type}</ListItem.Subtitle> */}
-                          <ListItem.Subtitle>
+                          <ListItem.Title style={{fontSize:16, textAlign: "left"}}>{item.description}</ListItem.Title>
+
+                          <ListItem.Subtitle style={{fontSize:10, textAlign: "left"}}>
                             หมวดหมู่: {item.category}
                           </ListItem.Subtitle>
-                          <ListItem.Subtitle>
+                          {/* <ListItem.Subtitle style={{fontSize:10}}>
                             วันที่: {item.day.toLocaleString("en-US")}
-                          </ListItem.Subtitle>
+                          </ListItem.Subtitle> */}
                         </View>
-                        <View>
-                          <ListItem.Title style={{ textAlign: "right" }}>
-                            {sign}
-                            {item.price}
-                          </ListItem.Title>
+                        <View style={{ flex: 1, alignItems: "flex-end" }}>
+                        <ListItem.Title
+                          style={{
+                            textAlign: "right",
+                            color: item.type === "รายรับ" ? "green" : "red" // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
+                          }}
+                        >
+                          {sign}
+                          {item.price}
+                        </ListItem.Title>
                         </View>
                       </ListItem.Content>
                       <ListItem.Chevron />
@@ -216,6 +281,44 @@ class Checklist extends Component {
               })}
           </ScrollView>
         </View>
+        {/* รวมเงิน */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf:"center" }}>
+      {showIncomeView && (
+        <View 
+          style={{
+            margin: 8,
+            height: 100,
+            width: 150,
+            backgroundColor: "green",
+            borderRadius: 20,
+            overflow: 'hidden',
+            elevation: 8,
+          }}
+        >
+          <Text style={{ textAlign: 'center', fontSize: 25, color: 'white' , paddingTop:30}}>
+            {totalIncome} ฿
+          </Text>
+        </View>
+      )}
+
+      {showExpenseView && (
+        <View 
+          style={{
+            margin: 8,
+            height: 100,
+            width: 150,
+            backgroundColor: "red",
+            borderRadius: 20,
+            overflow: 'hidden',
+            elevation: 8,
+          }}
+        >
+          <Text style={{ textAlign: 'center', fontSize: 25, color: 'white' , paddingTop:30}}>
+            {totalExpense} ฿
+          </Text>
+        </View>
+      )}
+    </View>
       </View>
     );
   }
