@@ -21,7 +21,7 @@ export default function App() {
             headerStyle: { backgroundColor: "orange" },
             headerTintColor: "black",
             tabBarActiveTintColor: "orange",
-            tabBarStyle: { backgroundColor: "black", flexDirection: 'row', justifyContent: 'space-between', height:90 },
+            tabBarStyle: { backgroundColor: "black", flexDirection: 'row', justifyContent: 'space-between', height:80 },
             headerTitleAlign: 'center',
           }}
           
@@ -91,6 +91,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
     width: 70,
-    height: 70,
+    height: 80,
   },
 });

@@ -21,6 +21,7 @@ class Checklist extends Component {
       subject_list: [],
       selectedMonth: "all",
       selectedType: "all",
+      selectedCate: "all"
     };
   }
 
@@ -76,6 +77,17 @@ class Checklist extends Component {
       { label: "รายจ่าย", value: "รายจ่าย" },
       { label: "รายรับ", value: "รายรับ" },
     ];
+    const categ = [
+      { label: "หมวดหมู่", value: "all" },
+      { label: "ทำงาน", value: "ทำงาน" },
+      { label: "ลงทุน", value: "ลงทุน" },
+      
+      { label: "อาหาร", value: "อาหาร" },
+      { label: "เดินทาง", value: "เดินทาง" },
+      { label: "ผ่อนสินค้า", value: "ผ่อนสินค้า" },
+      { label: "ของใช้", value: "ซื้อของใช้" },
+      
+    ];
 
     return (
       <View>
@@ -88,8 +100,8 @@ class Checklist extends Component {
           style={{
             height: 50,
             width: 200,
-            position: "absolute",
-            top: -70,
+            
+            top: 0,
             zIndex: 1,
             left: 200,
           }}
@@ -106,8 +118,7 @@ class Checklist extends Component {
           style={{
             height: 50,
             width: 200,
-            position: "absolute",
-            top: -70,
+            top: -50,
             zIndex: 1,
           }}
         >
@@ -115,17 +126,35 @@ class Checklist extends Component {
             <Picker.Item key={index} label={type.label} value={type.value} />
           ))}
         </Picker>
-
+        <Picker
+          selectedValue={this.state.selectedCate}
+          onValueChange={(itemValue) => {
+            this.setState({ selectedCate: itemValue });
+          }}
+          style={{
+            height: 50,
+            width: 200,
+            alignSelf:"center",
+            top: -50,
+            zIndex: 1,
+          }}
+        >
+          {categ.map((categ, index) => (
+            <Picker.Item key={index} label={categ.label} value={categ.value} />
+          ))}
+        </Picker>
         <View
           style={{
-            marginTop:150,
-            margin:17,
-            height: 450,
+            marginTop:20,
+            margin:8,
+            height: 350,
             width: 380,
             backgroundColor:"white",
             borderRadius:20,
             justifyContent:"center",
-            overflow: 'hidden'
+            overflow: 'hidden',
+            alignSelf: 'center',
+            elevation: 8,
             
           }}
         >
@@ -140,7 +169,10 @@ class Checklist extends Component {
                 const isTypeMatch =
                   this.state.selectedType === "all" ||
                   item.type === this.state.selectedType;
-                return isMonthMatch && isTypeMatch;
+                const isCateMatch =
+                  this.state.selectedCate === "all" ||
+                  item.category === this.state.selectedCate;
+                return isMonthMatch && isTypeMatch && isCateMatch;
               })
               .map((item, i) => {
                 const sign = item.type === "รายรับ" ? "+฿" : "-฿";
