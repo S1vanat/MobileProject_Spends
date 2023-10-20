@@ -8,18 +8,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebaseDB";
+import moment from "moment";
+
+// import { useState } from "react";
+// import DateTimePicker from "@react-native-community/datetimepicker";
+
+
 
 class Addrecord extends Component {
   constructor() {
     super();
 
-    this.saveCollection = firebase.firestore().collection("records");
+    this.saveCollection = firebase.firestore().collection("lists");
 
     this.state = {
-      money: "",
-      date: "",
-      info: "",
+      price: "",
+      day: "",
+      description: "",
       type: "",
+      category:"",
       save_list: [],
     };
   }
@@ -31,33 +38,40 @@ class Addrecord extends Component {
   };
 
   storeInfomation() {
+    const timestamp = moment(this.state.day, "MM/D/YYYY").toDate(); // แปลงวันที่เป็น timestamp
+    const price = parseFloat(this.state.price);
+
     this.saveCollection
       .add({
-        money: this.state.money,
-        date: this.state.date,
-        info: this.state.info,
+        price: price,
+        day: timestamp,
+        description: this.state.description,
         type: this.state.type,
+        category:this.state.category
+
       })
       .then((res) => {
         this.setState({
-          money: "",
-          date: "",
-          info: "",
-          type: ""
+          price: "",
+          day: "",
+          description: "",
+          type: "",
+          category:""
         });
       });
   }
-
+  
   getCollection = (querySnapshot) => {
     const all_data = [];
     querySnapshot.forEach((res) => {
-      const { money, date, info, type } = res.data();
+      const { price, day, description, type, category } = res.data();
       all_data.push({
         key: res.id,
-        money,
-        date,
-        info,
+        price,
+        day,
+        description,
         type,
+        category
       });
     });
 
@@ -74,6 +88,7 @@ class Addrecord extends Component {
     this.unsubscribe();
   }
 
+  
   render() {
     return (
       <View style={styles.container}>
@@ -81,25 +96,31 @@ class Addrecord extends Component {
           <TextInput
             style={styles.smolinput}
             keyboardType="number-pad"
-            value={this.state.money}
-            onChangeText={(val) => this.inputValueUpdate(val, "money")}
+            value={this.state.price}
+            onChangeText={(val) => this.inputValueUpdate(val, "price")}
             placeholder="จำนวน"
           />
           <TextInput
             style={styles.smolinput}
-            value={this.state.date}
-            onChangeText={(val) => this.inputValueUpdate(val, "date")}
-            placeholder="วันที่ / เดือน"
+            value={this.state.day}
+            onChangeText={(val) => this.inputValueUpdate(val, "day")}
+            placeholder="ดด/วว/ปป"
           />
         </View>
+        <TextInput
+            style={styles.smolinput}
+            value={this.state.category}
+            onChangeText={(val) => this.inputValueUpdate(val, "category")}
+            placeholder="หมวดหมู่"
+          />
         <Text>รายละเอียด</Text>
         <TextInput
           style={styles.input}
           editable
           multiline
           numberOfLines={4}
-          value={this.state.info}
-          onChangeText={(val) => this.inputValueUpdate(val, "info")}
+          value={this.state.description}
+          onChangeText={(val) => this.inputValueUpdate(val, "description")}
         />
         <View style={styles.rowSection}>
           <TouchableOpacity 
@@ -129,14 +150,17 @@ class Addrecord extends Component {
             <Text style={styles.text}>บันทึกรายจ่าย</Text>
           </TouchableOpacity>
         </View>
-        <Text>รายการที่บันทึก</Text>
+        {/* <Text>รายการที่บันทึก</Text> */}
         <ScrollView>
-        {this.state.save_list.map((item, i) => {
-          return (
-            <Text>({item.date}) {item.type}: "{item.info}" {item.money} บาท</Text>
-          );
-        })}
-      </ScrollView>
+          {this.state.save_list.map((item, i) => {
+            const formattedDate = moment(item.day.toDate()).format("MM/D/YY");
+            return (
+              <Text key={i}>
+                ({formattedDate}) {item.type}: {item.description} {item.price} ฿
+              </Text>
+            );
+          })}
+        </ScrollView>
       </View>
     );
   }
