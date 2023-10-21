@@ -56,7 +56,7 @@ class Notification extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View
+        {/* <View
           style={{
             margin: 8,
             height: "95%",
@@ -68,7 +68,7 @@ class Notification extends Component {
             alignSelf: "center",
             elevation: 8,
           }}
-        >
+        > */}
           <ScrollView style={{ flex: 1 }}>
             {this.state.subject_list.map((item, i) => {
               const sign = item.type === "รายรับ" ? "+฿" : "-฿";
@@ -110,7 +110,7 @@ class Notification extends Component {
               );
             })}
           </ScrollView>
-        </View>
+        {/* </View> */}
         <TouchableOpacity style={styles.button}>
           <Text style={{ fontWeight: 'bold', color: "white" }}>ตั้งค่า</Text>
         </TouchableOpacity>

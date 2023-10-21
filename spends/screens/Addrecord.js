@@ -11,6 +11,7 @@ import firebase from "../database/firebaseDB";
 import moment from "moment";
 import { ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
+import { Alert } from "react-native";
 
 // import { useState } from "react";
 // import DateTimePicker from "@react-native-community/datetimepicker";
@@ -38,16 +39,21 @@ class Addrecord extends Component {
   };
 
   storeInfomation() {
-    const timestamp = moment(this.state.day, "MM/D/YYYY").toDate(); // แปลงวันที่เป็น timestamp
-    const price = parseFloat(this.state.price);
-
+    const { price, day, description, type, category } = this.state;
+  
+    if (!price || !day || !description || !type || !category) {
+      // ถ้าข้อมูลไม่ครบถ้วน
+      Alert.alert("แจ้งเตือน", "กรุณากรอกข้อมูลให้ครบถ้วน");
+      return;
+    }
+  
     this.saveCollection
       .add({
-        price: price,
-        day: timestamp,
-        description: this.state.description,
-        type: this.state.type,
-        category: this.state.category,
+        price: parseFloat(price),
+        day: day,
+        description: description,
+        type: type,
+        category: category,
       })
       .then((res) => {
         this.setState({
@@ -57,6 +63,10 @@ class Addrecord extends Component {
           type: "",
           category: "",
         });
+        Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว");
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
       });
   }
 
@@ -113,16 +123,16 @@ class Addrecord extends Component {
           placeholder="หมวดหมู่"
         />
 
-        <Text>รายละเอียด</Text>
         <TextInput
           style={styles.input}
           editable
           multiline
-          numberOfLines={3}
+          numberOfLines={1}
           value={this.state.description}
           onChangeText={(val) => this.inputValueUpdate(val, "description")}
+          placeholder="คำอธิบาย"
         />
-
+        
         <View style={styles.rowSection}>
           <TouchableOpacity
             style={[
@@ -136,7 +146,7 @@ class Addrecord extends Component {
               this.storeInfomation();
             }}
           >
-            <Text>บันทึกรายรับ</Text>
+            <Ionicons name="add-circle-outline" size={32} color="white"></Ionicons>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -150,11 +160,10 @@ class Addrecord extends Component {
               this.storeInfomation();
             }}
           >
-            <Text>บันทึกรายจ่าย</Text>
+            <Ionicons name="remove-circle-outline" size={32} color="white"></Ionicons>
           </TouchableOpacity>
         </View>
 
-        <Text>รายการที่บันทึก</Text>
         <View style={styles.list}>
           <ScrollView style={{ flex: 1 }}>
             {this.state.save_list.map((item, i) => {
@@ -172,18 +181,37 @@ class Addrecord extends Component {
                     >
                       <Ionicons
                         name={
-                          item.category === "เดินทาง"
-                            ? "bicycle-outline"
-                            : item.category === "อาหาร"
-                            ? "fast-food-outline"
-                            : item.category === "ผ่อนสินค้า"
-                            ? "card-outline"
-                            : item.category === "ซื้อของใช้"
-                            ? "cart-outline"
-                            : item.category === "ทำงาน"
-                            ? "briefcase-outline"
-                            : "podium-outline"
-                        }
+                            item.category === "เดินทาง"
+                              ? "bicycle-outline"
+                              : item.category === "อาหาร"
+                              ? "fast-food-outline"
+                              : item.category === "ผ่อนสินค้า"
+                              ? "card-outline"
+                              : item.category === "ซื้อของใช้"
+                              ? "cart-outline"
+
+                              : item.category === "ทำงาน"
+                              ? "briefcase-outline"
+
+                              : item.category === "สุขภาพ"
+                              ? "medkit-outline"
+                              : item.category === "นันทนาการ"
+                              ? "film-outline"
+
+                              : item.category === "การลงทุน"
+                              ? "podium-outline"
+
+                              : item.category === "การศึกษา"
+                              ? "library-outline"
+                              : item.category === "ที่พักอาศัย"
+                              ? "home-outline"
+                              : item.category === "โบนัส"
+                              ? "cash-outline"
+                              : item.category === "บำรุง"
+                              ? "build-outline"
+                              
+                              : "ellipsis-horizontal-circle-outline"
+                          }
                         size={24}
                         color="black"
                         style={{ marginRight: 13, paddingTop: 8 }}
@@ -227,10 +255,10 @@ class Addrecord extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 40,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor:"#ffd2ad"
   },
   rowSection: {
     flexDirection: "row",
@@ -240,10 +268,11 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "#000",
-    padding: 10,
+    padding: 15,
     width: "80%",
     marginVertical: 10,
     borderRadius: 10,
+    backgroundColor:"white"
   },
   smolinput: {
     borderWidth: 1,
@@ -253,6 +282,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
     margin: 5,
+    backgroundColor:"white"
   },
   button: {
     alignItems: "center",
@@ -264,16 +294,16 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   list: {
-    margin: 8,
-    height: "100%",
-    width: "95%",
+    marginBottom: 25,
+    marginTop:15,
+    width: "90%",
     backgroundColor: "white",
     borderRadius: 20,
     justifyContent: "center",
     overflow: "hidden",
     alignSelf: "center",
     elevation: 8,
-    flex: 6,
+    flex: 1,
   },
 });
 

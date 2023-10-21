@@ -82,12 +82,18 @@ class Checklist extends Component {
     const categ = [
       { label: "หมวดหมู่", value: "all" },
       { label: "ทำงาน", value: "ทำงาน" },
-      { label: "ลงทุน", value: "การลงทุน" },
+      { label: "การลงทุน", value: "การลงทุน" },
+      { label: "โบนัส", value: "โบนัส" },
 
       { label: "อาหาร", value: "อาหาร" },
       { label: "เดินทาง", value: "เดินทาง" },
       { label: "ผ่อนสินค้า", value: "ผ่อนสินค้า" },
       { label: "ซื้อของใช้", value: "ซื้อของใช้" },
+      { label: "สุขภาพ", value: "สุขภาพ" },
+      { label: "บำรุง", value: "บำรุง" },
+      { label: "การศึกษา", value: "การศึกษา" },
+      { label: "ที่พักอาศัย", value: "ที่พักอาศัย" },
+      { label: "นันทนาการ", value: "นันทนาการ" },
     ];
 
     const filteredItems = this.state.subject_list.filter((item) => {
@@ -176,8 +182,9 @@ class Checklist extends Component {
               if (this.state.selectedType === "รายรับ") {
                 return (
                   c.value === "ทำงาน" ||
-                  c.value === "ลงทุน" ||
-                  c.value === "all"
+                  c.value === "การลงทุน" ||
+                  c.value === "all" ||
+                  c.value === "โบนัส"
                 );
               } else if (this.state.selectedType === "รายจ่าย") {
                 return (
@@ -185,7 +192,15 @@ class Checklist extends Component {
                   c.value === "เดินทาง" ||
                   c.value === "all" ||
                   c.value === "ผ่อนสินค้า" ||
-                  c.value === "ซื้อของใช้"
+                  c.value === "ซื้อของใช้" ||
+
+                  c.value === "สุขภาพ" ||
+                  c.value === "นันทนาการ" ||
+                  
+                  c.value === "การศึกษา"||
+                  c.value === "ที่พักอาศัย" ||
+                  c.value === "บำรุง"
+                  
                 );
               }
               return true;
@@ -260,7 +275,22 @@ class Checklist extends Component {
                               ? "cart-outline"
                               : item.category === "ทำงาน"
                               ? "briefcase-outline"
-                              : "podium-outline"
+                              : item.category === "สุขภาพ"
+                              ? "medkit-outline"
+                              : item.category === "นันทนาการ"
+                              ? "film-outline"
+                              : item.category === "การลงทุน"
+                              ? "podium-outline"
+                              : item.category === "การศึกษา"
+                              ? "library-outline"
+                              : item.category === "ที่พักอาศัย"
+                              ? "home-outline"
+                              : item.category === "โบนัส"
+                              ? "cash-outline"
+                              : item.category === "บำรุง"
+                              ? "build-outline"
+                              
+                              : "ellipsis-horizontal-circle-outline"
                           }
                           size={24}
                           color="black"
@@ -313,9 +343,9 @@ class Checklist extends Component {
             <View
               style={{
                 margin: 8,
-                height: 100,
+                height: 70,
                 width: 150,
-                backgroundColor: "green",
+                backgroundColor: "#13C999",
                 borderRadius: 20,
                 overflow: "hidden",
                 elevation: 8,
@@ -326,7 +356,7 @@ class Checklist extends Component {
                   textAlign: "center",
                   fontSize: 25,
                   color: "white",
-                  paddingTop: 30,
+                  paddingTop: 20,
                 }}
               >
                 {totalIncome} ฿
@@ -338,9 +368,9 @@ class Checklist extends Component {
             <View
               style={{
                 margin: 8,
-                height: 100,
+                height: 70,
                 width: 150,
-                backgroundColor: "red",
+                backgroundColor: "#FF6363",
                 borderRadius: 20,
                 overflow: "hidden",
                 elevation: 8,
@@ -351,7 +381,7 @@ class Checklist extends Component {
                   textAlign: "center",
                   fontSize: 25,
                   color: "white",
-                  paddingTop: 30,
+                  paddingTop: 20,
                 }}
               >
                 {totalExpense} ฿
