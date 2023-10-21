@@ -84,17 +84,8 @@ class Notification extends Component {
                       <ListItem.Title
                         style={{ fontSize: 16, textAlign: "left" }}
                       >
-                        {item.description}
+                        คุณได้บันทึก{item.type} : "{item.category}"
                       </ListItem.Title>
-
-                      <ListItem.Subtitle
-                        style={{ fontSize: 10, textAlign: "left" }}
-                      >
-                        หมวดหมู่: {item.category}
-                      </ListItem.Subtitle>
-                      {/* <ListItem.Subtitle style={{fontSize:10}}>
-                            วันที่: {item.day.toLocaleString("en-US")}
-                          </ListItem.Subtitle> */}
                     </View>
                     <View style={{ flex: 1, alignItems: "flex-end" }}>
                       <ListItem.Title
