@@ -105,12 +105,14 @@ class Addrecord extends Component {
             placeholder="ดด/วว/ปป"
           />
         </View>
+
         <TextInput
           style={styles.smolinput}
           value={this.state.category}
           onChangeText={(val) => this.inputValueUpdate(val, "category")}
           placeholder="หมวดหมู่"
         />
+
         <Text>รายละเอียด</Text>
         <TextInput
           style={styles.input}
@@ -120,6 +122,7 @@ class Addrecord extends Component {
           value={this.state.description}
           onChangeText={(val) => this.inputValueUpdate(val, "description")}
         />
+
         <View style={styles.rowSection}>
           <TouchableOpacity
             style={[
@@ -133,7 +136,7 @@ class Addrecord extends Component {
               this.storeInfomation();
             }}
           >
-            <Text style={styles.text}>บันทึกรายรับ</Text>
+            <Text>บันทึกรายรับ</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -147,25 +150,12 @@ class Addrecord extends Component {
               this.storeInfomation();
             }}
           >
-            <Text style={styles.text}>บันทึกรายจ่าย</Text>
+            <Text>บันทึกรายจ่าย</Text>
           </TouchableOpacity>
         </View>
 
         <Text>รายการที่บันทึก</Text>
-        <View
-          style={{
-            margin: 8,
-            height: "100%",
-            width: "95%",
-            backgroundColor: "white",
-            borderRadius: 20,
-            justifyContent: "center",
-            overflow: "hidden",
-            alignSelf: "center",
-            elevation: 8,
-            flex: 6,
-          }}
-        >
+        <View style={styles.list}>
           <ScrollView style={{ flex: 1 }}>
             {this.state.save_list.map((item, i) => {
               const sign = item.type === "รายรับ" ? "+฿" : "-฿";
@@ -272,6 +262,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     margin: 5,
+  },
+  list: {
+    margin: 8,
+    height: "100%",
+    width: "95%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    justifyContent: "center",
+    overflow: "hidden",
+    alignSelf: "center",
+    elevation: 8,
+    flex: 6,
   },
 });
 
