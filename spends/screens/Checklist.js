@@ -12,6 +12,8 @@ import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
+import Modal from 'react-native-modal';
+import moment from 'moment';
 
 class Checklist extends Component {
   constructor() {
@@ -24,8 +26,17 @@ class Checklist extends Component {
       selectedMonth: "all",
       selectedType: "all",
       selectedCate: "all",
+      selectedItem: null, // เพิ่ม state สำหรับเก็บข้อมูลรายการที่ถูกเลือก
+      isModalVisible: false, // เพิ่ม state สำหรับตรวจสอบว่า Modal ควรแสดงหรือไม่
     };
   }
+
+  toggleModal = (item) => {
+    this.setState((prevState) => ({
+      isModalVisible: !prevState.isModalVisible,
+      selectedItem: item, // เซ็ตข้อมูลรายการที่ถูกเลือกใน state
+    }));
+  };
 
   getCollection = (querySnapshot) => {
     const all_data = [];
@@ -247,7 +258,7 @@ class Checklist extends Component {
               .map((item, i) => {
                 const sign = item.type === "รายรับ" ? "+฿" : "-฿";
                 return (
-                  <TouchableOpacity key={i}>
+                  <TouchableOpacity key={i} onPress={() => this.toggleModal(item)}>
                     <ListItem
                       key={i}
                       bottomDivider
@@ -256,8 +267,67 @@ class Checklist extends Component {
                       //     item.type === "รายจ่าย" ? "#fcc7c2" : "#ccfccf",
                       // }}
                     >
+                      <Modal isVisible={this.state.isModalVisible}>
+                          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                            <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10 , height:"auto"}}>
+                              {this.state.selectedItem && (
+                                <>
+                                  <Text>ชนิด: {this.state.selectedItem.type}</Text>
+                                  <Text>จำนวน: {this.state.selectedItem.price} ฿</Text>
+                                  <Text>รายละเอียด: {this.state.selectedItem.description}</Text>
+                                  <Text>หมวดหมู่: {this.state.selectedItem.category}</Text>
+                                  <Text>วันที่: {moment(item.day).format('MM/D/YY')}</Text>
+                                  
+                                </>
+                              )}
+                              <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
+                                <TouchableOpacity
+                                  style={{
+                                    // backgroundColor: "orange",
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 20,
+                                    borderRadius: 5,
+                                  }}
+                                  onPress={() => {
+                                    // แก้ไข
+                                  }}
+                                >
+                                  <Ionicons name="pencil-outline" size={24} color="black" />
+                                </TouchableOpacity>
+                                
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                  <TouchableOpacity
+                                    style={{
+                                      paddingVertical: 10,
+                                      paddingHorizontal: 20,
+                                      borderRadius: 5,
+                                      marginRight: 10,
+                                    }}
+                                    onPress={() => {
+                                      // โค้ดสำหรับการลบ
+                                    }}
+                                  >
+                                    <Ionicons name="trash-outline" size={24} color="black" />
+                                  </TouchableOpacity>
+                                  
+                                  <TouchableOpacity
+                                    style={{
+                                      paddingVertical: 10,
+                                      paddingHorizontal: 20,
+                                      borderRadius: 5,
+                                    }}
+                                    onPress={() => this.toggleModal(null)}
+                                  >
+                                    <Ionicons name="close" size={24} color="black" />
+                                  </TouchableOpacity>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                        </Modal>
                       <ListItem.Content
                         style={{
+                          marginLeft:-15,
                           flexDirection: "row",
                           justifyContent: "space-between",
                           justifyContent: "flex-start",
@@ -294,7 +364,7 @@ class Checklist extends Component {
                           }
                           size={24}
                           color="black"
-                          style={{ marginRight: 13, paddingTop: 8 }}
+                          style={{ marginRight: 13, paddingTop: 5 }}
                         />
                         <View>
                           <ListItem.Title
