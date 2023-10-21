@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Button,
   View,
-  Text
+  Text,
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
@@ -23,7 +23,7 @@ class Checklist extends Component {
       subject_list: [],
       selectedMonth: "all",
       selectedType: "all",
-      selectedCate: "all"
+      selectedCate: "all",
     };
   }
 
@@ -90,7 +90,6 @@ class Checklist extends Component {
       { label: "ซื้อของใช้", value: "ซื้อของใช้" },
     ];
 
-
     const filteredItems = this.state.subject_list.filter((item) => {
       const isMonthMatch =
         this.state.selectedMonth === "all" ||
@@ -105,17 +104,20 @@ class Checklist extends Component {
         item.category === this.state.selectedCate;
       return isMonthMatch && isTypeMatch && isCateMatch;
     });
-  
+
     const totalIncome = filteredItems
       .filter((item) => item.type === "รายรับ")
       .reduce((acc, item) => acc + item.price, 0);
-  
+
     const totalExpense = filteredItems
       .filter((item) => item.type === "รายจ่าย")
       .reduce((acc, item) => acc + item.price, 0);
-  
-    const showIncomeView = this.state.selectedType === "รายรับ" || this.state.selectedType === "all";
-    const showExpenseView = this.state.selectedType === "รายจ่าย" || this.state.selectedType === "all";
+
+    const showIncomeView =
+      this.state.selectedType === "รายรับ" || this.state.selectedType === "all";
+    const showExpenseView =
+      this.state.selectedType === "รายจ่าย" ||
+      this.state.selectedType === "all";
 
     return (
       <View>
@@ -128,7 +130,7 @@ class Checklist extends Component {
           style={{
             height: 50,
             width: 200,
-            
+
             top: 0,
             zIndex: 1,
             left: 200,
@@ -138,7 +140,7 @@ class Checklist extends Component {
             <Picker.Item key={index} label={month.label} value={month.value} />
           ))}
         </Picker>
-        
+
         <Picker
           selectedValue={this.state.selectedType}
           onValueChange={(itemValue) => {
@@ -151,8 +153,7 @@ class Checklist extends Component {
             zIndex: 1,
           }}
         >
-          {types
-          .map((type, index) => (
+          {types.map((type, index) => (
             <Picker.Item key={index} label={type.label} value={type.value} />
           ))}
         </Picker>
@@ -173,30 +174,43 @@ class Checklist extends Component {
           {categ
             .filter((c) => {
               if (this.state.selectedType === "รายรับ") {
-                return c.value === "ทำงาน" || c.value === "ลงทุน" || c.value === "all";
+                return (
+                  c.value === "ทำงาน" ||
+                  c.value === "ลงทุน" ||
+                  c.value === "all"
+                );
               } else if (this.state.selectedType === "รายจ่าย") {
-                return c.value === "อาหาร" || c.value === "เดินทาง" || c.value === "all" || c.value === "ผ่อนสินค้า" || c.value === "ซื้อของใช้";
+                return (
+                  c.value === "อาหาร" ||
+                  c.value === "เดินทาง" ||
+                  c.value === "all" ||
+                  c.value === "ผ่อนสินค้า" ||
+                  c.value === "ซื้อของใช้"
+                );
               }
               return true;
             })
             .map((categ, index) => (
-              <Picker.Item key={index} label={categ.label} value={categ.value} />
-          ))}
+              <Picker.Item
+                key={index}
+                label={categ.label}
+                value={categ.value}
+              />
+            ))}
         </Picker>
 
         <View
           style={{
-            marginTop:-40,
-            margin:8,
+            marginTop: -40,
+            margin: 8,
             height: 350,
             width: 370,
-            backgroundColor:"white",
-            borderRadius:20,
-            justifyContent:"center",
-            overflow: 'hidden',
-            alignSelf: 'center',
+            backgroundColor: "white",
+            borderRadius: 20,
+            justifyContent: "center",
+            overflow: "hidden",
+            alignSelf: "center",
             elevation: 8,
-            
           }}
         >
           <ScrollView style={{ flex: 1 }}>
@@ -231,7 +245,7 @@ class Checklist extends Component {
                         style={{
                           flexDirection: "row",
                           justifyContent: "space-between",
-                          justifyContent: "flex-start"
+                          justifyContent: "flex-start",
                         }}
                       >
                         <Ionicons
@@ -250,12 +264,18 @@ class Checklist extends Component {
                           }
                           size={24}
                           color="black"
-                          style={{ marginRight: 13,  paddingTop:8}}
+                          style={{ marginRight: 13, paddingTop: 8 }}
                         />
                         <View>
-                          <ListItem.Title style={{fontSize:16, textAlign: "left"}}>{item.description}</ListItem.Title>
+                          <ListItem.Title
+                            style={{ fontSize: 16, textAlign: "left" }}
+                          >
+                            {item.description}
+                          </ListItem.Title>
 
-                          <ListItem.Subtitle style={{fontSize:10, textAlign: "left"}}>
+                          <ListItem.Subtitle
+                            style={{ fontSize: 10, textAlign: "left" }}
+                          >
                             หมวดหมู่: {item.category}
                           </ListItem.Subtitle>
                           {/* <ListItem.Subtitle style={{fontSize:10}}>
@@ -263,15 +283,15 @@ class Checklist extends Component {
                           </ListItem.Subtitle> */}
                         </View>
                         <View style={{ flex: 1, alignItems: "flex-end" }}>
-                        <ListItem.Title
-                          style={{
-                            textAlign: "right",
-                            color: item.type === "รายรับ" ? "green" : "red" // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
-                          }}
-                        >
-                          {sign}
-                          {item.price}
-                        </ListItem.Title>
+                          <ListItem.Title
+                            style={{
+                              textAlign: "right",
+                              color: item.type === "รายรับ" ? "green" : "red", // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
+                            }}
+                          >
+                            {sign}
+                            {item.price}
+                          </ListItem.Title>
                         </View>
                       </ListItem.Content>
                       <ListItem.Chevron />
@@ -282,43 +302,63 @@ class Checklist extends Component {
           </ScrollView>
         </View>
         {/* รวมเงิน */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf:"center" }}>
-      {showIncomeView && (
-        <View 
+        <View
           style={{
-            margin: 8,
-            height: 100,
-            width: 150,
-            backgroundColor: "green",
-            borderRadius: 20,
-            overflow: 'hidden',
-            elevation: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            alignSelf: "center",
           }}
         >
-          <Text style={{ textAlign: 'center', fontSize: 25, color: 'white' , paddingTop:30}}>
-            {totalIncome} ฿
-          </Text>
-        </View>
-      )}
+          {showIncomeView && (
+            <View
+              style={{
+                margin: 8,
+                height: 100,
+                width: 150,
+                backgroundColor: "green",
+                borderRadius: 20,
+                overflow: "hidden",
+                elevation: 8,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 25,
+                  color: "white",
+                  paddingTop: 30,
+                }}
+              >
+                {totalIncome} ฿
+              </Text>
+            </View>
+          )}
 
-      {showExpenseView && (
-        <View 
-          style={{
-            margin: 8,
-            height: 100,
-            width: 150,
-            backgroundColor: "red",
-            borderRadius: 20,
-            overflow: 'hidden',
-            elevation: 8,
-          }}
-        >
-          <Text style={{ textAlign: 'center', fontSize: 25, color: 'white' , paddingTop:30}}>
-            {totalExpense} ฿
-          </Text>
+          {showExpenseView && (
+            <View
+              style={{
+                margin: 8,
+                height: 100,
+                width: 150,
+                backgroundColor: "red",
+                borderRadius: 20,
+                overflow: "hidden",
+                elevation: 8,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 25,
+                  color: "white",
+                  paddingTop: 30,
+                }}
+              >
+                {totalExpense} ฿
+              </Text>
+            </View>
+          )}
         </View>
-      )}
-    </View>
       </View>
     );
   }

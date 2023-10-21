@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import moment from "moment";
+import { ListItem } from "react-native-elements";
+import { Ionicons } from "@expo/vector-icons";
 
 // import { useState } from "react";
 // import DateTimePicker from "@react-native-community/datetimepicker";
-
-
 
 class Addrecord extends Component {
   constructor() {
@@ -26,7 +26,7 @@ class Addrecord extends Component {
       day: "",
       description: "",
       type: "",
-      category:"",
+      category: "",
       save_list: [],
     };
   }
@@ -47,8 +47,7 @@ class Addrecord extends Component {
         day: timestamp,
         description: this.state.description,
         type: this.state.type,
-        category:this.state.category
-
+        category: this.state.category,
       })
       .then((res) => {
         this.setState({
@@ -56,11 +55,11 @@ class Addrecord extends Component {
           day: "",
           description: "",
           type: "",
-          category:""
+          category: "",
         });
       });
   }
-  
+
   getCollection = (querySnapshot) => {
     const all_data = [];
     querySnapshot.forEach((res) => {
@@ -71,7 +70,7 @@ class Addrecord extends Component {
         day,
         description,
         type,
-        category
+        category,
       });
     });
 
@@ -88,79 +87,154 @@ class Addrecord extends Component {
     this.unsubscribe();
   }
 
-  
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.rowSection}>
+        {/* <ScrollView style={{ flex: 1, width: "100%", height: "100%" }}> */}
+          <View style={styles.rowSection}>
+            <TextInput
+              style={styles.smolinput}
+              keyboardType="number-pad"
+              value={this.state.price}
+              onChangeText={(val) => this.inputValueUpdate(val, "price")}
+              placeholder="จำนวน"
+            />
+            <TextInput
+              style={styles.smolinput}
+              value={this.state.day}
+              onChangeText={(val) => this.inputValueUpdate(val, "day")}
+              placeholder="ดด/วว/ปป"
+            />
+          </View>
           <TextInput
-            style={styles.smolinput}
-            keyboardType="number-pad"
-            value={this.state.price}
-            onChangeText={(val) => this.inputValueUpdate(val, "price")}
-            placeholder="จำนวน"
-          />
-          <TextInput
-            style={styles.smolinput}
-            value={this.state.day}
-            onChangeText={(val) => this.inputValueUpdate(val, "day")}
-            placeholder="ดด/วว/ปป"
-          />
-        </View>
-        <TextInput
             style={styles.smolinput}
             value={this.state.category}
             onChangeText={(val) => this.inputValueUpdate(val, "category")}
             placeholder="หมวดหมู่"
           />
-        <Text>รายละเอียด</Text>
-        <TextInput
-          style={styles.input}
-          editable
-          multiline
-          numberOfLines={4}
-          value={this.state.description}
-          onChangeText={(val) => this.inputValueUpdate(val, "description")}
-        />
-        <View style={styles.rowSection}>
-          <TouchableOpacity 
+          <Text>รายละเอียด</Text>
+          <TextInput
+            style={styles.input}
+            editable
+            multiline
+            numberOfLines={4}
+            value={this.state.description}
+            onChangeText={(val) => this.inputValueUpdate(val, "description")}
+          />
+          <View style={styles.rowSection}>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 12,
+                paddingHorizontal: 20,
+                borderRadius: 10,
+                elevation: 3,
+                backgroundColor: "#13C999",
+                margin: 5,
+              }}
+              onPress={() => {
+                this.inputValueUpdate("รายรับ", "type");
+                this.storeInfomation();
+              }}
+            >
+              <Text style={styles.text}>บันทึกรายรับ</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 12,
+                paddingHorizontal: 20,
+                borderRadius: 10,
+                elevation: 3,
+                backgroundColor: "#FF6363",
+                margin: 5,
+              }}
+              onPress={() => {
+                this.inputValueUpdate("รายจ่าย", "type");
+                this.storeInfomation();
+              }}
+            >
+              <Text style={styles.text}>บันทึกรายจ่าย</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text>รายการที่บันทึก</Text>
+          <View
             style={{
-              paddingVertical: 12,
-              paddingHorizontal: 20,
-              borderRadius: 10,
-              elevation: 3,
-              backgroundColor: "#13C999",
-              margin: 5,
+              margin: 8,
+              height: "100%",
+              width: "100%",
+              backgroundColor: "white",
+              borderRadius: 20,
+              justifyContent: "center",
+              overflow: "hidden",
+              alignSelf: "center",
+              elevation: 8,
+              flex: 4,
             }}
-            onPress={() => {this.inputValueUpdate("รายรับ", "type"); this.storeInfomation();}}
           >
-            <Text style={styles.text}>บันทึกรายรับ</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              paddingVertical: 12,
-              paddingHorizontal: 20,
-              borderRadius: 10,
-              elevation: 3,
-              backgroundColor: "#FF6363",
-              margin: 5,
-            }}
-            onPress={() => {this.inputValueUpdate("รายจ่าย", "type"); this.storeInfomation();}}
-          >
-            <Text style={styles.text}>บันทึกรายจ่าย</Text>
-          </TouchableOpacity>
-        </View>
-        {/* <Text>รายการที่บันทึก</Text> */}
-        <ScrollView>
-          {this.state.save_list.map((item, i) => {
-            const formattedDate = moment(item.day.toDate()).format("MM/D/YY");
-            return (
-              <Text key={i}>
-                ({formattedDate}) {item.type}: {item.description} {item.price} ฿
-              </Text>
-            );
-          })}
-        </ScrollView>
+            <ScrollView style={{ flex: 1 }}>
+              {this.state.save_list.map((item, i) => {
+                const sign = item.type === "รายรับ" ? "+฿" : "-฿";
+                return (
+                  <TouchableOpacity key={i}>
+                    <ListItem key={i} bottomDivider>
+                      <ListItem.Content
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <Ionicons
+                          name={
+                            item.category === "เดินทาง"
+                              ? "bicycle-outline"
+                              : item.category === "อาหาร"
+                              ? "fast-food-outline"
+                              : item.category === "ผ่อนสินค้า"
+                              ? "card-outline"
+                              : item.category === "ซื้อของใช้"
+                              ? "cart-outline"
+                              : item.category === "ทำงาน"
+                              ? "briefcase-outline"
+                              : "podium-outline"
+                          }
+                          size={24}
+                          color="black"
+                          style={{ marginRight: 13, paddingTop: 8 }}
+                        />
+                        <View>
+                          <ListItem.Title
+                            style={{ fontSize: 16, textAlign: "left" }}
+                          >
+                            {item.category}
+                          </ListItem.Title>
+
+                          <ListItem.Subtitle
+                            style={{ fontSize: 10, textAlign: "left" }}
+                          >
+                            {item.description}
+                          </ListItem.Subtitle>
+                        </View>
+                        <View style={{ flex: 1, alignItems: "flex-end" }}>
+                          <ListItem.Title
+                            style={{
+                              textAlign: "right",
+                              color: item.type === "รายรับ" ? "green" : "red", // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
+                            }}
+                          >
+                            {sign}
+                            {item.price}
+                          </ListItem.Title>
+                        </View>
+                      </ListItem.Content>
+                      <ListItem.Chevron />
+                    </ListItem>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        {/* </ScrollView> */}
       </View>
     );
   }
