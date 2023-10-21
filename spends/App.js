@@ -8,7 +8,7 @@ import Home from "../spends/screens/Home";
 import Checklist from "./screens/Checklist";
 import Addrecord from "../spends/screens/Addrecord";
 import Tab4 from "../spends/screens/Tab4";
-import Tab5 from "../spends/screens/Tab5";
+import Notification from "./screens/Notification";
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +73,7 @@ export default function App() {
               ),
             }}
             name="การแจ้งเตือน"
-            component={Tab5}
+            component={Notification}
           />
         </Tab.Navigator>
       </View>
