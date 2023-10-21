@@ -18,9 +18,9 @@ export default function App() {
       <View style={{ flex: 1 }}>
         <Tab.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: "orange" },
+            headerStyle: { backgroundColor: "#EC8032" },
             headerTintColor: "black",
-            tabBarActiveTintColor: "orange",
+            tabBarActiveTintColor: "#EC8032",
             tabBarStyle: { backgroundColor: "black", flexDirection: 'row', justifyContent: 'space-between', height:80 },
             headerTitleAlign: 'center',
           }}
