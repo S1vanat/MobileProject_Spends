@@ -156,7 +156,7 @@ class Addrecord extends Component {
           style={{
             margin: 8,
             height: "100%",
-            width: "90%",
+            width: "95%",
             backgroundColor: "white",
             borderRadius: 20,
             justifyContent: "center",
@@ -169,6 +169,7 @@ class Addrecord extends Component {
           <ScrollView style={{ flex: 1 }}>
             {this.state.save_list.map((item, i) => {
               const sign = item.type === "รายรับ" ? "+฿" : "-฿";
+              const formattedDate = moment(item.day.toDate()).format("MM/D/YY");
               return (
                 <TouchableOpacity key={i}>
                   <ListItem key={i} bottomDivider>
@@ -207,7 +208,7 @@ class Addrecord extends Component {
                         <ListItem.Subtitle
                           style={{ fontSize: 10, textAlign: "left" }}
                         >
-                          {item.description}
+                          ({formattedDate})
                         </ListItem.Subtitle>
                       </View>
                       <View style={{ flex: 1, alignItems: "flex-end" }}>
