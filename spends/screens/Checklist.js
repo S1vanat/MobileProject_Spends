@@ -289,11 +289,11 @@ class Checklist extends Component {
                       >
                         <View
                           style={{
-                            backgroundColor: "#2121214C",
+                            backgroundColor: "rgba(33, 33, 33, 0.7)",
                             flex: 1,
                             justifyContent: "center",
                             alignItems: "center",
-                            opacity: 0.55,
+                            
                           }}
                         >
                           <View
