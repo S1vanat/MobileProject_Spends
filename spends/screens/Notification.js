@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
+import moment from "moment";
 
 class Notification extends Component {
   constructor() {
@@ -60,38 +61,36 @@ class Notification extends Component {
           {this.state.subject_list.map((item, i) => {
             const sign = item.type === "รายรับ" ? "+฿" : "-฿";
             return (
-                <ListItem key={i} bottomDivider>
-                  <ListItem.Content
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <View>
-                      <ListItem.Title
-                        style={{ fontSize: 16, textAlign: "left" }}
-                      >
-                        คุณได้บันทึก{item.type} : "{item.category}"
-                      </ListItem.Title>
-                      <ListItem.Subtitle style={{ fontSize: 10 }}>
-                        วันที่: {item.day.toLocaleString("en-US")}
-                      </ListItem.Subtitle>
-                    </View>
-                    <View style={{ flex: 1, alignItems: "flex-end" }}>
-                      <ListItem.Title
-                        style={{
-                          textAlign: "right",
-                          color: item.type === "รายรับ" ? "green" : "red", // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
-                        }}
-                      >
-                        {sign}
-                        {item.price}
-                      </ListItem.Title>
-                    </View>
-                  </ListItem.Content>
-                  <ListItem.Chevron />
-                </ListItem>
+              <ListItem key={i} bottomDivider>
+                <ListItem.Content
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <View>
+                    <ListItem.Title style={{ fontSize: 16, textAlign: "left" }}>
+                      คุณได้บันทึก{item.type} : "{item.category}"
+                    </ListItem.Title>
+                    <ListItem.Subtitle style={{ fontSize: 10 }}>
+                      วันที่: {moment(item.day).format("MM/D/YY")}
+                    </ListItem.Subtitle>
+                  </View>
+                  <View style={{ flex: 1, alignItems: "flex-end" }}>
+                    <ListItem.Title
+                      style={{
+                        textAlign: "right",
+                        color: item.type === "รายรับ" ? "green" : "red", // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
+                      }}
+                    >
+                      {sign}
+                      {item.price}
+                    </ListItem.Title>
+                  </View>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
             );
           })}
         </ScrollView>
