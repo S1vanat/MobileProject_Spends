@@ -59,19 +59,12 @@ class ChecklistDetail extends Component {
       .collection("lists")
       .doc(this.state.key);
     const timestamp = moment(this.state.day, "MM/D/YYYY").toDate();
-    updateSubjDoc
-      .set({
-        price: this.state.price,
-        day: timestamp,
-        description: this.state.description,
-        category: this.state.category,
-      })
-      .then(() => {
-        Alert.alert(
-          "Updating Alert",
-          "The subject was updated!! Pls check your DB!!"
-        );
-      });
+    updateSubjDoc.set({
+      price: this.state.price,
+      day: timestamp,
+      description: this.state.description,
+      category: this.state.category,
+    });
   }
 
   render() {
@@ -120,6 +113,7 @@ class ChecklistDetail extends Component {
             ]}
             onPress={() => {
               this.updateSubject();
+              this.props.navigation.navigate("ตรวจสอบ");
             }}
           >
             <Text>ยืนยันการแก้ไข</Text>
