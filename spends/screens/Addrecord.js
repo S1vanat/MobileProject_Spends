@@ -39,6 +39,7 @@ class Addrecord extends Component {
   };
 
   storeInfomation() {
+    const timestamp = moment(this.state.day, "MM/D/YYYY").toDate();
     const { price, day, description, type, category } = this.state;
   
     if (!price || !day || !description || !type || !category) {
@@ -50,7 +51,7 @@ class Addrecord extends Component {
     this.saveCollection
       .add({
         price: parseFloat(price),
-        day: day,
+        day: timestamp,
         description: description,
         type: type,
         category: category,
@@ -228,6 +229,7 @@ class Addrecord extends Component {
                           style={{ fontSize: 10, textAlign: "left" }}
                         >
                           ({formattedDate})
+                          {/* {item.day.toLocaleString("en-US")} */}
                         </ListItem.Subtitle>
                       </View>
                       <View style={{ flex: 1, alignItems: "flex-end" }}>
