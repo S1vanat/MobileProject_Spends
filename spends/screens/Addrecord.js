@@ -142,23 +142,10 @@ class Addrecord extends Component {
   }
 
   render() {
-
-    const categories = [
-      "ลงทุน",
-      "ทำงาน",
-      "โบนัส",
-      "สุขภาพ",
-      "นันทนาการ",
-      "บำรุง",
-      "ที่พักอาศัย",
-      "เดินทาง",
-      "อาหาร",
-      "ผ่อนสินค้า",
-      "ซื้อของใช้",
-      "การศึกษา"
-    ];
     return (
       <View style={styles.container}>
+
+        {/* กรอกข้อมูล */}
         <View style={styles.rowSection}>
           <TextInput
             style={styles.smolinput}
@@ -175,15 +162,16 @@ class Addrecord extends Component {
           />
         </View>
 
+      {/* ดรอปดาวของหมวดหมู่เพิ่มรายการ */}
         <Picker
-          selectedValue={this.state.category}
-          onValueChange={(itemValue, itemIndex) => this.inputValueUpdate(itemValue, "category")}
-          style={styles.smolinput}
-        >
-          {this.state.categories.map((category, index) => (
-            <Picker.Item key={index} label={category} value={category} />
-          ))}
-        </Picker>
+            selectedValue={this.state.category}
+            onValueChange={(itemValue, itemIndex) => this.inputValueUpdate(itemValue, "category")}
+            style={styles.smolinput}
+          >
+            {this.state.categories.map((category, index) => (
+              <Picker.Item key={index} label={category} value={category} />
+            ))}
+          </Picker>
         <View>
           {this.renderAddCategoryInput()}
         </View>

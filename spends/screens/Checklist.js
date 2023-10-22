@@ -28,6 +28,7 @@ class Checklist extends Component {
       selectedMonth: "all",
       selectedType: "all",
       selectedCate: "all",
+      categories: [], 
       selectedItem: null, // เพิ่ม state สำหรับเก็บข้อมูลรายการที่ถูกเลือก
       isModalVisible: false, // เพิ่ม state สำหรับตรวจสอบว่า Modal ควรแสดงหรือไม่
     };
@@ -54,20 +55,32 @@ class Checklist extends Component {
         category,
       });
     });
-
+  
     all_data.sort((a, b) => b.day - a.day);
-
+  
     this.setState({
       subject_list: all_data,
     });
   };
 
   componentDidMount() {
-    this.unsubscribe = this.subjCollection.onSnapshot(this.getCollection);
+    this.unsubscribeCategories = this.subjCollection.onSnapshot((querySnapshot) => {
+      const categories = [];
+      querySnapshot.forEach((doc) => {
+        const { category } = doc.data();
+        if (!categories.includes(category)) {
+          categories.push(category);
+        }
+      });
+      this.setState({ categories }); // เซ็ตข้อมูลหมวดหมู่ใน state
+    });
+  
+    this.unsubscribeItems = this.subjCollection.onSnapshot(this.getCollection);
   }
-
+  
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribeCategories();
+    this.unsubscribeItems();
   }
 
   deleteSubject() {
@@ -106,34 +119,13 @@ class Checklist extends Component {
       { label: "รายรับ", value: "รายรับ" },
     ];
     const categ = [
-      { label: "หมวดหมู่", value: "all" },
-      { label: "ทำงาน", value: "ทำงาน" },
-      { label: "การลงทุน", value: "การลงทุน" },
-      { label: "โบนัส", value: "โบนัส" },
-
-      { label: "อาหาร", value: "อาหาร" },
-      { label: "เดินทาง", value: "เดินทาง" },
-      { label: "ผ่อนสินค้า", value: "ผ่อนสินค้า" },
-      { label: "ซื้อของใช้", value: "ซื้อของใช้" },
-      { label: "สุขภาพ", value: "สุขภาพ" },
-      { label: "บำรุง", value: "บำรุง" },
-      { label: "การศึกษา", value: "การศึกษา" },
-      { label: "ที่พักอาศัย", value: "ที่พักอาศัย" },
-      { label: "นันทนาการ", value: "นันทนาการ" },
+     
     ];
 
     const filteredItems = this.state.subject_list.filter((item) => {
-      const isMonthMatch =
-        this.state.selectedMonth === "all" ||
-        new Date(item.day).toLocaleString("en-US", {
-          month: "long",
-        }) === this.state.selectedMonth;
-      const isTypeMatch =
-        this.state.selectedType === "all" ||
-        item.type === this.state.selectedType;
-      const isCateMatch =
-        this.state.selectedCate === "all" ||
-        item.category === this.state.selectedCate;
+      const isMonthMatch = this.state.selectedMonth === "all" || new Date(item.day).toLocaleString("en-US", { month: "long" }) === this.state.selectedMonth;
+      const isTypeMatch = this.state.selectedType === "all" || item.type === this.state.selectedType;
+      const isCateMatch = this.state.selectedCate === "all" || item.category === this.state.selectedCate;
       return isMonthMatch && isTypeMatch && isCateMatch;
     });
 
@@ -203,37 +195,18 @@ class Checklist extends Component {
             zIndex: 1,
           }}
         >
-          {categ
-            .filter((c) => {
-              if (this.state.selectedType === "รายรับ") {
-                return (
-                  c.value === "ทำงาน" ||
-                  c.value === "การลงทุน" ||
-                  c.value === "all" ||
-                  c.value === "โบนัส"
-                );
-              } else if (this.state.selectedType === "รายจ่าย") {
-                return (
-                  c.value === "อาหาร" ||
-                  c.value === "เดินทาง" ||
-                  c.value === "all" ||
-                  c.value === "ผ่อนสินค้า" ||
-                  c.value === "ซื้อของใช้" ||
-                  c.value === "สุขภาพ" ||
-                  c.value === "นันทนาการ" ||
-                  c.value === "การศึกษา" ||
-                  c.value === "ที่พักอาศัย" ||
-                  c.value === "บำรุง"
-                );
-              }
-              return true;
+          <Picker.Item label="หมวดหมู่" value="all" />
+          {this.state.categories
+            .filter((category) => {
+              const type = this.state.selectedType;
+              return (
+                (type === "รายรับ" && this.state.subject_list.some(item => item.category === category && item.type === "รายรับ")) ||
+                (type === "รายจ่าย" && this.state.subject_list.some(item => item.category === category && item.type === "รายจ่าย")) ||
+                type === "all"
+              );
             })
-            .map((categ, index) => (
-              <Picker.Item
-                key={index}
-                label={categ.label}
-                value={categ.value}
-              />
+            .map((category, index) => (
+              <Picker.Item key={index} label={category} value={category} />
             ))}
         </Picker>
 
