@@ -6,12 +6,14 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Button
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import moment from "moment";
 import { ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
+import { Picker } from '@react-native-picker/picker';
 
 // import { useState } from "react";
 // import DateTimePicker from "@react-native-community/datetimepicker";
@@ -29,8 +31,47 @@ class Addrecord extends Component {
       type: "",
       category: "",
       save_list: [],
+      newCategory: "", // สถานะเพิ่มเมื่อผู้ใช้เพิ่มหมวดหมู่ใหม่
+      categories: [
+        "ลงทุน",
+        "ทำงาน",
+        "โบนัส",
+        "สุขภาพ",
+        "นันทนาการ",
+        "บำรุง",
+        "ที่พักอาศัย",
+        "เดินทาง",
+        "อาหาร",
+        "ผ่อนสินค้า",
+        "ซื้อของใช้",
+        "การศึกษา"
+      ]
     };
   }
+
+  addNewCategory = () => {
+    if (this.state.newCategory) {
+      const newCategories = [...this.state.categories, this.state.newCategory];
+      this.setState({
+        categories: newCategories,
+        newCategory: ""
+      });
+    }
+  };
+  
+  // ให้ผู้ใช้ป้อนหมวดหมู่ใหม่
+  renderAddCategoryInput = () => {
+    return (
+      <View>
+        <TextInput
+          value={this.state.newCategory}
+          onChangeText={(text) => this.setState({ newCategory: text })}
+          placeholder="เพิ่มหมวดหมู่ใหม่"
+        />
+        <Button title="เพิ่ม" onPress={this.addNewCategory} />
+      </View>
+    );
+  };
 
   inputValueUpdate = (val, prop) => {
     const state = this.state;
@@ -41,13 +82,13 @@ class Addrecord extends Component {
   storeInfomation() {
     const timestamp = moment(this.state.day, "MM/D/YYYY").toDate();
     const { price, day, description, type, category } = this.state;
-  
+
     if (!price || !day || !description || !type || !category) {
       // ถ้าข้อมูลไม่ครบถ้วน
       Alert.alert("แจ้งเตือน", "กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
-  
+
     this.saveCollection
       .add({
         price: parseFloat(price),
@@ -101,6 +142,21 @@ class Addrecord extends Component {
   }
 
   render() {
+
+    const categories = [
+      "ลงทุน",
+      "ทำงาน",
+      "โบนัส",
+      "สุขภาพ",
+      "นันทนาการ",
+      "บำรุง",
+      "ที่พักอาศัย",
+      "เดินทาง",
+      "อาหาร",
+      "ผ่อนสินค้า",
+      "ซื้อของใช้",
+      "การศึกษา"
+    ];
     return (
       <View style={styles.container}>
         <View style={styles.rowSection}>
@@ -119,12 +175,18 @@ class Addrecord extends Component {
           />
         </View>
 
-        <TextInput
+        <Picker
+          selectedValue={this.state.category}
+          onValueChange={(itemValue, itemIndex) => this.inputValueUpdate(itemValue, "category")}
           style={styles.smolinput}
-          value={this.state.category}
-          onChangeText={(val) => this.inputValueUpdate(val, "category")}
-          placeholder="หมวดหมู่"
-        />
+        >
+          {this.state.categories.map((category, index) => (
+            <Picker.Item key={index} label={category} value={category} />
+          ))}
+        </Picker>
+        <View>
+          {this.renderAddCategoryInput()}
+        </View>
 
         <TextInput
           style={styles.input}
@@ -135,7 +197,7 @@ class Addrecord extends Component {
           onChangeText={(val) => this.inputValueUpdate(val, "description")}
           placeholder="คำอธิบาย"
         />
-        
+
         <View style={styles.rowSection}>
           <TouchableOpacity
             style={[
@@ -149,7 +211,11 @@ class Addrecord extends Component {
               this.storeInfomation();
             }}
           >
-            <Ionicons name="add-circle-outline" size={32} color="white"></Ionicons>
+            <Ionicons
+              name="add-circle-outline"
+              size={32}
+              color="white"
+            ></Ionicons>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -163,7 +229,11 @@ class Addrecord extends Component {
               this.storeInfomation();
             }}
           >
-            <Ionicons name="remove-circle-outline" size={32} color="white"></Ionicons>
+            <Ionicons
+              name="remove-circle-outline"
+              size={32}
+              color="white"
+            ></Ionicons>
           </TouchableOpacity>
         </View>
 
@@ -173,79 +243,74 @@ class Addrecord extends Component {
               const sign = item.type === "รายรับ" ? "+฿" : "-฿";
               const formattedDate = moment(item.day.toDate()).format("MM/D/YY");
               return (
-                  <ListItem key={i} bottomDivider>
-                    <ListItem.Content
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        justifyContent: "flex-start",
-                      }}
-                    >
-                      <Ionicons
-                        name={
-                            item.category === "เดินทาง"
-                              ? "bicycle-outline"
-                              : item.category === "อาหาร"
-                              ? "fast-food-outline"
-                              : item.category === "ผ่อนสินค้า"
-                              ? "card-outline"
-                              : item.category === "ซื้อของใช้"
-                              ? "cart-outline"
+                <ListItem key={i} bottomDivider>
+                  <ListItem.Content
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <Ionicons
+                      name={
+                        item.category === "เดินทาง"
+                          ? "bicycle-outline"
+                          : item.category === "อาหาร"
+                          ? "fast-food-outline"
+                          : item.category === "ผ่อนสินค้า"
+                          ? "card-outline"
+                          : item.category === "ซื้อของใช้"
+                          ? "cart-outline"
+                          : item.category === "ทำงาน"
+                          ? "briefcase-outline"
+                          : item.category === "สุขภาพ"
+                          ? "medkit-outline"
+                          : item.category === "นันทนาการ"
+                          ? "film-outline"
+                          : item.category === "การลงทุน"
+                          ? "podium-outline"
+                          : item.category === "การศึกษา"
+                          ? "library-outline"
+                          : item.category === "ที่พักอาศัย"
+                          ? "home-outline"
+                          : item.category === "โบนัส"
+                          ? "cash-outline"
+                          : item.category === "บำรุง"
+                          ? "build-outline"
+                          : "ellipsis-horizontal-circle-outline"
+                      }
+                      size={24}
+                      color="black"
+                      style={{ marginRight: 13, paddingTop: 8 }}
+                    />
+                    <View>
+                      <ListItem.Title
+                        style={{ fontSize: 16, textAlign: "left" }}
+                      >
+                        {item.category}
+                      </ListItem.Title>
 
-                              : item.category === "ทำงาน"
-                              ? "briefcase-outline"
-
-                              : item.category === "สุขภาพ"
-                              ? "medkit-outline"
-                              : item.category === "นันทนาการ"
-                              ? "film-outline"
-
-                              : item.category === "การลงทุน"
-                              ? "podium-outline"
-
-                              : item.category === "การศึกษา"
-                              ? "library-outline"
-                              : item.category === "ที่พักอาศัย"
-                              ? "home-outline"
-                              : item.category === "โบนัส"
-                              ? "cash-outline"
-                              : item.category === "บำรุง"
-                              ? "build-outline"
-                              
-                              : "ellipsis-horizontal-circle-outline"
-                          }
-                        size={24}
-                        color="black"
-                        style={{ marginRight: 13, paddingTop: 8 }}
-                      />
-                      <View>
-                        <ListItem.Title
-                          style={{ fontSize: 16, textAlign: "left" }}
-                        >
-                          {item.category}
-                        </ListItem.Title>
-
-                        <ListItem.Subtitle
-                          style={{ fontSize: 10, textAlign: "left" }}
-                        >
-                          ({formattedDate})
-                          {/* {item.day.toLocaleString("en-US")} */}
-                        </ListItem.Subtitle>
-                      </View>
-                      <View style={{ flex: 1, alignItems: "flex-end" }}>
-                        <ListItem.Title
-                          style={{
-                            textAlign: "right",
-                            color: item.type === "รายรับ" ? "green" : "red", // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
-                          }}
-                        >
-                          {sign}
-                          {item.price}
-                        </ListItem.Title>
-                      </View>
-                    </ListItem.Content>
-                    <ListItem.Chevron />
-                  </ListItem>
+                      <ListItem.Subtitle
+                        style={{ fontSize: 10, textAlign: "left" }}
+                      >
+                        ({formattedDate})
+                        {/* {item.day.toLocaleString("en-US")} */}
+                      </ListItem.Subtitle>
+                    </View>
+                    <View style={{ flex: 1, alignItems: "flex-end" }}>
+                      <ListItem.Title
+                        style={{
+                          textAlign: "right",
+                          color: item.type === "รายรับ" ? "green" : "red", // เปลี่ยนสีตัวอักษรเป็นสีเขียวเมื่อเป็นรายรับ
+                        }}
+                      >
+                        {sign}
+                        {item.price}
+                      </ListItem.Title>
+                    </View>
+                  </ListItem.Content>
+                  <ListItem.Chevron />
+                </ListItem>
               );
             })}
           </ScrollView>
@@ -260,7 +325,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:"#ffd2ad"
+    backgroundColor: "#ffd2ad",
   },
   rowSection: {
     flexDirection: "row",
@@ -274,7 +339,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginVertical: 10,
     borderRadius: 10,
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   smolinput: {
     borderWidth: 1,
@@ -284,7 +349,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
     margin: 5,
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   button: {
     alignItems: "center",
@@ -297,7 +362,7 @@ const styles = StyleSheet.create({
   },
   list: {
     marginBottom: 25,
-    marginTop:15,
+    marginTop: 15,
     width: "90%",
     backgroundColor: "white",
     borderRadius: 20,
