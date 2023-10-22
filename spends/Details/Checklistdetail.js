@@ -9,8 +9,6 @@ import {
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import moment from "moment";
-import { ListItem } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
 
 class ChecklistDetail extends Component {
@@ -35,10 +33,11 @@ class ChecklistDetail extends Component {
     subjDoc.get().then((res) => {
       if (res.exists) {
         const subj = res.data();
+        const dateObject = new Date(subj.day.seconds * 1000);
         this.setState({
           key: res.id,
           price: subj.price,
-          day: subj.day,
+          day: dateObject,
           category: subj.category,
           description: subj.description,
         });
@@ -82,13 +81,13 @@ class ChecklistDetail extends Component {
           <TextInput
             style={styles.smolinput}
             keyboardType="number-pad"
-            value={this.state.price}
+            value={this.state.price.toString()}
             onChangeText={(val) => this.inputValueUpdate(val, "price")}
             placeholder="จำนวน"
           />
           <TextInput
             style={styles.smolinput}
-            value={this.state.day}
+            value={moment(this.state.day).format("MM/D/YY")}
             onChangeText={(val) => this.inputValueUpdate(val, "day")}
             placeholder="ดด/วว/ปป"
           />

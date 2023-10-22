@@ -349,8 +349,10 @@ class Checklist extends Component {
                                       key: this.state.selectedItem.key,
                                       price: this.state.selectedItem.price,
                                       day: this.state.selectedItem.day,
-                                      category: this.state.selectedItem.category,
-                                      description: this.state.selectedItem.description,
+                                      category:
+                                        this.state.selectedItem.category,
+                                      description:
+                                        this.state.selectedItem.description,
                                     }
                                   );
                                 }}
