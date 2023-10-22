@@ -353,6 +353,7 @@ class Checklist extends Component {
                                         this.state.selectedItem.category,
                                       description:
                                         this.state.selectedItem.description,
+                                        type: this.state.selectedItem.type
                                     }
                                   );
                                 }}

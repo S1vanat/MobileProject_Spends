@@ -40,6 +40,7 @@ class ChecklistDetail extends Component {
           day: dateObject,
           category: subj.category,
           description: subj.description,
+          type: subj.type
         });
       } else {
         console.log("Document does not exist!!");
@@ -64,6 +65,7 @@ class ChecklistDetail extends Component {
       day: timestamp,
       description: this.state.description,
       category: this.state.category,
+      type: this.state.type
     });
   }
 
@@ -75,14 +77,14 @@ class ChecklistDetail extends Component {
             style={styles.smolinput}
             keyboardType="number-pad"
             value={this.state.price.toString()}
-            onChangeText={(val) => this.inputValueUpdate(val, "price")}
+            onChangeText={(val) => this.inputValueUpdate(Number(val), "price")}
             placeholder="จำนวน"
           />
           <TextInput
             style={styles.smolinput}
-            value={moment(this.state.day).format("MM/D/YY")}
+            value={this.state.day}
             onChangeText={(val) => this.inputValueUpdate(val, "day")}
-            placeholder="ดด/วว/ปป"
+            placeholder={moment(this.state.day).format("MM/D/YY")}
           />
         </View>
 
