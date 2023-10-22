@@ -94,7 +94,10 @@ class Notification extends Component {
             );
           })}
         </ScrollView>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("แก้ไขการแจ้งเตือน")}
+        >
           <Text style={{ fontWeight: "bold", color: "white" }}>ตั้งค่า</Text>
         </TouchableOpacity>
       </View>

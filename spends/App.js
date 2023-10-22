@@ -11,9 +11,11 @@ import Addrecord from "../spends/screens/Addrecord";
 import Tab4 from "../spends/screens/Tab4";
 import Notification from "./screens/Notification";
 import ChecklistDetail from "./Details/Checklistdetail";
+import SetNotification from "./Details/SetNotification";
 
 const Tab = createBottomTabNavigator();
 const ChecklistNavigator = createNativeStackNavigator();
+const SetNotiNavigator = createNativeStackNavigator();
 
 function ChecklistStack() {
   return (
@@ -33,6 +35,27 @@ function ChecklistStack() {
         component={ChecklistDetail}
       />
     </ChecklistNavigator.Navigator>
+  );
+}
+
+function SetNotiStack() {
+  return (
+    <SetNotiNavigator.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#EC8032" },
+        headerTintColor: "black",
+        headerTitleAlign: "center",
+      }}
+    >
+      <SetNotiNavigator.Screen
+        name="การแจ้งเตือน"
+        component={Notification}
+      />
+      <SetNotiNavigator.Screen
+        name="แก้ไขการแจ้งเตือน"
+        component={SetNotification}
+      />
+    </SetNotiNavigator.Navigator>
   );
 }
 
@@ -99,9 +122,10 @@ export default function App() {
               tabBarIcon: ({ color }) => (
                 <AntDesign name="bells" size={20} color={color} />
               ),
+              headerShown: false,
             }}
-            name="การแจ้งเตือน"
-            component={Notification}
+            name="การแจ้งเตือน1"
+            component={SetNotiStack}
           />
         </Tab.Navigator>
       </View>
