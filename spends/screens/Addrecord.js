@@ -85,7 +85,7 @@ class Addrecord extends Component {
     });
 
     all_data.sort((a, b) => b.day - a.day);
-    
+
     this.setState({
       save_list: all_data,
     });
@@ -172,7 +172,6 @@ class Addrecord extends Component {
               const sign = item.type === "รายรับ" ? "+฿" : "-฿";
               const formattedDate = moment(item.day.toDate()).format("MM/D/YY");
               return (
-                <TouchableOpacity key={i}>
                   <ListItem key={i} bottomDivider>
                     <ListItem.Content
                       style={{
@@ -245,7 +244,6 @@ class Addrecord extends Component {
                     </ListItem.Content>
                     <ListItem.Chevron />
                   </ListItem>
-                </TouchableOpacity>
               );
             })}
           </ScrollView>
