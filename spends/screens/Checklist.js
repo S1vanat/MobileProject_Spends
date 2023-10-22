@@ -293,7 +293,6 @@ class Checklist extends Component {
                             flex: 1,
                             justifyContent: "center",
                             alignItems: "center",
-                            
                           }}
                         >
                           <View
@@ -302,7 +301,7 @@ class Checklist extends Component {
                               padding: 20,
                               borderRadius: 10,
                               height: "auto",
-                              opacity: 1
+                              opacity: 1,
                             }}
                           >
                             {this.state.selectedItem && (
@@ -321,7 +320,10 @@ class Checklist extends Component {
                                   หมวดหมู่: {this.state.selectedItem.category}
                                 </Text>
                                 <Text>
-                                  วันที่: {moment(this.state.selectedItem.day).format("MM/D/YY")}
+                                  วันที่:{" "}
+                                  {moment(this.state.selectedItem.day).format(
+                                    "MM/D/YY"
+                                  )}
                                 </Text>
                               </>
                             )}
@@ -340,7 +342,8 @@ class Checklist extends Component {
                                   borderRadius: 5,
                                 }}
                                 onPress={() => {
-                                  // แก้ไข
+                                  this.toggleModal(null);
+                                  this.props.navigation.navigate("แก้ไขรายการ");
                                 }}
                               >
                                 <Ionicons
