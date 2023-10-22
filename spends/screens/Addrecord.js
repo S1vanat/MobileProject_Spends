@@ -84,6 +84,8 @@ class Addrecord extends Component {
       });
     });
 
+    all_data.sort((a, b) => b.day - a.day);
+    
     this.setState({
       save_list: all_data,
     });

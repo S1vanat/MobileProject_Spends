@@ -7,12 +7,13 @@ import {
   Button,
   View,
   Text,
+  Modal
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
-import Modal from 'react-native-modal';
+// import Modal from 'react-native-modal';
 import moment from 'moment';
 
 class Checklist extends Component {
@@ -267,8 +268,8 @@ class Checklist extends Component {
                       //     item.type === "รายจ่าย" ? "#fcc7c2" : "#ccfccf",
                       // }}
                     >
-                      <Modal isVisible={this.state.isModalVisible}>
-                          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                      <Modal visible={this.state.isModalVisible} transparent={true}>
+                          <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center", alignItems: "center", }}>
                             <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10 , height:"auto"}}>
                               {this.state.selectedItem && (
                                 <>
