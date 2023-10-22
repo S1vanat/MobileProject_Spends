@@ -343,7 +343,16 @@ class Checklist extends Component {
                                 }}
                                 onPress={() => {
                                   this.toggleModal(null);
-                                  this.props.navigation.navigate("แก้ไขรายการ");
+                                  this.props.navigation.navigate(
+                                    "แก้ไขรายการ",
+                                    {
+                                      key: this.state.selectedItem.key,
+                                      price: this.state.selectedItem.price,
+                                      day: this.state.selectedItem.day,
+                                      category: this.state.selectedItem.category,
+                                      description: this.state.selectedItem.description,
+                                    }
+                                  );
                                 }}
                               >
                                 <Ionicons

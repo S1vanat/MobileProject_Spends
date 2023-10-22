@@ -17,8 +17,6 @@ class ChecklistDetail extends Component {
   constructor() {
     super();
 
-    this.saveCollection = firebase.firestore().collection("lists");
-
     this.state = {
       price: "",
       day: "",
@@ -29,72 +27,52 @@ class ChecklistDetail extends Component {
     };
   }
 
+  componentDidMount() {
+    const subjDoc = firebase
+      .firestore()
+      .collection("lists")
+      .doc(this.props.route.params.key);
+    subjDoc.get().then((res) => {
+      if (res.exists) {
+        const subj = res.data();
+        this.setState({
+          key: res.id,
+          price: subj.price,
+          day: subj.day,
+          category: subj.category,
+          description: subj.description,
+        });
+      } else {
+        console.log("Document does not exist!!");
+      }
+    });
+  }
+
   inputValueUpdate = (val, prop) => {
     const state = this.state;
     state[prop] = val;
     this.setState(state);
   };
 
-  storeInfomation() {
+  updateSubject() {
+    const updateSubjDoc = firebase
+      .firestore()
+      .collection("lists")
+      .doc(this.state.key);
     const timestamp = moment(this.state.day, "MM/D/YYYY").toDate();
-    const { price, day, description, type, category } = this.state;
-  
-    if (!price || !day || !description || !type || !category) {
-      // ถ้าข้อมูลไม่ครบถ้วน
-      Alert.alert("แจ้งเตือน", "กรุณากรอกข้อมูลให้ครบถ้วน");
-      return;
-    }
-  
-    this.saveCollection
-      .add({
-        price: parseFloat(price),
+    updateSubjDoc
+      .set({
+        price: this.state.price,
         day: timestamp,
-        description: description,
-        type: type,
-        category: category,
+        description: this.state.description,
+        category: this.state.category,
       })
-      .then((res) => {
-        this.setState({
-          price: "",
-          day: "",
-          description: "",
-          type: "",
-          category: "",
-        });
-        Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว");
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
+      .then(() => {
+        Alert.alert(
+          "Updating Alert",
+          "The subject was updated!! Pls check your DB!!"
+        );
       });
-  }
-
-  getCollection = (querySnapshot) => {
-    const all_data = [];
-    querySnapshot.forEach((res) => {
-      const { price, day, description, type, category } = res.data();
-      all_data.push({
-        key: res.id,
-        price,
-        day,
-        description,
-        type,
-        category,
-      });
-    });
-
-    all_data.sort((a, b) => b.day - a.day);
-
-    this.setState({
-      save_list: all_data,
-    });
-  };
-
-  componentDidMount() {
-    this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
   }
 
   render() {
@@ -132,7 +110,7 @@ class ChecklistDetail extends Component {
           onChangeText={(val) => this.inputValueUpdate(val, "description")}
           placeholder="คำอธิบาย"
         />
-        
+
         <View style={styles.rowSection}>
           <TouchableOpacity
             style={[
@@ -142,25 +120,10 @@ class ChecklistDetail extends Component {
               },
             ]}
             onPress={() => {
-              this.inputValueUpdate("รายรับ", "type");
-              this.storeInfomation();
+              this.updateSubject();
             }}
           >
-            <Ionicons name="add-circle-outline" size={32} color="white"></Ionicons>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              {
-                backgroundColor: "#FF6363",
-              },
-            ]}
-            onPress={() => {
-              this.inputValueUpdate("รายจ่าย", "type");
-              this.storeInfomation();
-            }}
-          >
-            <Ionicons name="remove-circle-outline" size={32} color="white"></Ionicons>
+            <Text>ยืนยันการแก้ไข</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -173,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:"#ffd2ad"
+    backgroundColor: "#ffd2ad",
   },
   rowSection: {
     flexDirection: "row",
@@ -187,7 +150,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginVertical: 10,
     borderRadius: 10,
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   smolinput: {
     borderWidth: 1,
@@ -197,7 +160,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
     margin: 5,
-    backgroundColor:"white"
+    backgroundColor: "white",
   },
   button: {
     alignItems: "center",
@@ -210,7 +173,7 @@ const styles = StyleSheet.create({
   },
   list: {
     marginBottom: 25,
-    marginTop:15,
+    marginTop: 15,
     width: "90%",
     backgroundColor: "white",
     borderRadius: 20,
