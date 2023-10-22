@@ -60,7 +60,6 @@ class Notification extends Component {
           {this.state.subject_list.map((item, i) => {
             const sign = item.type === "รายรับ" ? "+฿" : "-฿";
             return (
-              <TouchableOpacity key={i}>
                 <ListItem key={i} bottomDivider>
                   <ListItem.Content
                     style={{
@@ -93,7 +92,6 @@ class Notification extends Component {
                   </ListItem.Content>
                   <ListItem.Chevron />
                 </ListItem>
-              </TouchableOpacity>
             );
           })}
         </ScrollView>
