@@ -7,14 +7,15 @@ import {
   Button,
   View,
   Text,
-  Modal
+  Modal,
+  Alert,
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 // import Modal from 'react-native-modal';
-import moment from 'moment';
+import moment from "moment";
 
 class Checklist extends Component {
   constructor() {
@@ -67,6 +68,19 @@ class Checklist extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  deleteSubject() {
+    const delSubjDoc = firebase
+      .firestore()
+      .collection("lists")
+      .doc(this.state.selectedItem.key);
+    delSubjDoc.delete().then((res) => {
+      Alert.alert(
+        "Deleting Alert",
+        "The subject was deleted!! Pls check your DB!!"
+      );
+    });
   }
 
   render() {
@@ -205,14 +219,11 @@ class Checklist extends Component {
                   c.value === "all" ||
                   c.value === "ผ่อนสินค้า" ||
                   c.value === "ซื้อของใช้" ||
-
                   c.value === "สุขภาพ" ||
                   c.value === "นันทนาการ" ||
-                  
-                  c.value === "การศึกษา"||
+                  c.value === "การศึกษา" ||
                   c.value === "ที่พักอาศัย" ||
                   c.value === "บำรุง"
-                  
                 );
               }
               return true;
@@ -259,7 +270,10 @@ class Checklist extends Component {
               .map((item, i) => {
                 const sign = item.type === "รายรับ" ? "+฿" : "-฿";
                 return (
-                  <TouchableOpacity key={i} onPress={() => this.toggleModal(item)}>
+                  <TouchableOpacity
+                    key={i}
+                    onPress={() => this.toggleModal(item)}
+                  >
                     <ListItem
                       key={i}
                       bottomDivider
@@ -268,67 +282,118 @@ class Checklist extends Component {
                       //     item.type === "รายจ่าย" ? "#fcc7c2" : "#ccfccf",
                       // }}
                     >
-                      <Modal visible={this.state.isModalVisible} transparent={true}>
-                          <View style={{ backgroundColor: "#000000aa", flex: 1, justifyContent: "center", alignItems: "center", }}>
-                            <View style={{ backgroundColor: "white", padding: 20, borderRadius: 10 , height:"auto"}}>
-                              {this.state.selectedItem && (
-                                <>
-                                  <Text>ชนิด: {this.state.selectedItem.type}</Text>
-                                  <Text>จำนวน: {this.state.selectedItem.price} ฿</Text>
-                                  <Text>รายละเอียด: {this.state.selectedItem.description}</Text>
-                                  <Text>หมวดหมู่: {this.state.selectedItem.category}</Text>
-                                  <Text>วันที่: {moment(item.day).format('MM/D/YY')}</Text>
-                                  
-                                </>
-                              )}
-                              <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
+                      <Modal
+                        visible={this.state.isModalVisible}
+                        transparent={true}
+                      >
+                        <View
+                          style={{
+                            backgroundColor: "#000000aa",
+                            flex: 1,
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <View
+                            style={{
+                              backgroundColor: "white",
+                              padding: 20,
+                              borderRadius: 10,
+                              height: "auto",
+                            }}
+                          >
+                            {this.state.selectedItem && (
+                              <>
+                                <Text>
+                                  ชนิด: {this.state.selectedItem.type}
+                                </Text>
+                                <Text>
+                                  จำนวน: {this.state.selectedItem.price} ฿
+                                </Text>
+                                <Text>
+                                  รายละเอียด:{" "}
+                                  {this.state.selectedItem.description}
+                                </Text>
+                                <Text>
+                                  หมวดหมู่: {this.state.selectedItem.category}
+                                </Text>
+                                <Text>
+                                  วันที่: {moment(item.day).format("MM/D/YY")}
+                                </Text>
+                              </>
+                            )}
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                marginTop: 20,
+                              }}
+                            >
+                              <TouchableOpacity
+                                style={{
+                                  // backgroundColor: "orange",
+                                  paddingVertical: 10,
+                                  paddingHorizontal: 20,
+                                  borderRadius: 5,
+                                }}
+                                onPress={() => {
+                                  // แก้ไข
+                                }}
+                              >
+                                <Ionicons
+                                  name="pencil-outline"
+                                  size={24}
+                                  color="black"
+                                />
+                              </TouchableOpacity>
+
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                }}
+                              >
                                 <TouchableOpacity
                                   style={{
-                                    // backgroundColor: "orange",
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 20,
+                                    borderRadius: 5,
+                                    marginRight: 10,
+                                  }}
+                                  onPress={() => {
+                                    this.deleteSubject();
+                                    this.toggleModal(null);
+                                  }}
+                                >
+                                  <Ionicons
+                                    name="trash-outline"
+                                    size={24}
+                                    color="black"
+                                  />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                  style={{
                                     paddingVertical: 10,
                                     paddingHorizontal: 20,
                                     borderRadius: 5,
                                   }}
-                                  onPress={() => {
-                                    // แก้ไข
-                                  }}
+                                  onPress={() => this.toggleModal(null)}
                                 >
-                                  <Ionicons name="pencil-outline" size={24} color="black" />
+                                  <Ionicons
+                                    name="close"
+                                    size={24}
+                                    color="black"
+                                  />
                                 </TouchableOpacity>
-                                
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                  <TouchableOpacity
-                                    style={{
-                                      paddingVertical: 10,
-                                      paddingHorizontal: 20,
-                                      borderRadius: 5,
-                                      marginRight: 10,
-                                    }}
-                                    onPress={() => {
-                                      // โค้ดสำหรับการลบ
-                                    }}
-                                  >
-                                    <Ionicons name="trash-outline" size={24} color="black" />
-                                  </TouchableOpacity>
-                                  
-                                  <TouchableOpacity
-                                    style={{
-                                      paddingVertical: 10,
-                                      paddingHorizontal: 20,
-                                      borderRadius: 5,
-                                    }}
-                                    onPress={() => this.toggleModal(null)}
-                                  >
-                                    <Ionicons name="close" size={24} color="black" />
-                                  </TouchableOpacity>
-                                </View>
                               </View>
                             </View>
                           </View>
-                        </Modal>
+                        </View>
+                      </Modal>
                       <ListItem.Content
                         style={{
-                          marginLeft:-15,
+                          marginLeft: -15,
                           flexDirection: "row",
                           justifyContent: "space-between",
                           justifyContent: "flex-start",
@@ -360,7 +425,6 @@ class Checklist extends Component {
                               ? "cash-outline"
                               : item.category === "บำรุง"
                               ? "build-outline"
-                              
                               : "ellipsis-horizontal-circle-outline"
                           }
                           size={24}
