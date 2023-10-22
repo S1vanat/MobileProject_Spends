@@ -284,7 +284,8 @@ class Checklist extends Component {
                     >
                       <Modal
                         visible={this.state.isModalVisible}
-                        transparent={true}
+                        animationType="fade"
+                        transparent
                       >
                         <View
                           style={{
@@ -292,6 +293,7 @@ class Checklist extends Component {
                             flex: 1,
                             justifyContent: "center",
                             alignItems: "center",
+                            opacity: 0.55,
                           }}
                         >
                           <View
@@ -300,6 +302,7 @@ class Checklist extends Component {
                               padding: 20,
                               borderRadius: 10,
                               height: "auto",
+                              opacity: 1
                             }}
                           >
                             {this.state.selectedItem && (
@@ -318,7 +321,7 @@ class Checklist extends Component {
                                   หมวดหมู่: {this.state.selectedItem.category}
                                 </Text>
                                 <Text>
-                                  วันที่: {moment(item.day).format("MM/D/YY")}
+                                  วันที่: {moment(this.state.selectedItem.day).format("MM/D/YY")}
                                 </Text>
                               </>
                             )}
