@@ -32,37 +32,14 @@ class SetNotification extends Component {
     this.setState(state);
   };
 
-  storeInfomation() {
-    const timestamp = moment(this.state.day, "MM/D/YYYY").toDate();
-    const { price, day, description, type, category } = this.state;
-
-    if (!price || !day || !description || !type || !category) {
-      // ถ้าข้อมูลไม่ครบถ้วน
-      Alert.alert("แจ้งเตือน", "กรุณากรอกข้อมูลให้ครบถ้วน");
-      return;
-    }
-
-    this.saveCollection
-      .add({
-        price: parseFloat(price),
-        day: timestamp,
-        description: description,
-        type: type,
-        category: category,
-      })
-      .then((res) => {
-        this.setState({
-          price: "",
-          day: "",
-          description: "",
-          type: "",
-          category: "",
-        });
-        Alert.alert("สำเร็จ", "บันทึกข้อมูลเรียบร้อยแล้ว");
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+  updateSubject() {
+    const updateSubjDoc = firebase
+      .firestore()
+      .collection("records")
+      .doc(this.state.key);
+    updateSubjDoc.set({
+      maxExpense: this.state.maxExpense,
+    });
   }
 
   getCollection = (querySnapshot) => {
@@ -88,19 +65,6 @@ class SetNotification extends Component {
   };
 
   componentDidMount() {
-    const subjDoc = firebase.firestore().collection("records");
-    subjDoc.get().then((res) => {
-      if (res.exists) {
-        const subj = res.data();
-        this.setState({
-          key: res.id,
-          maxExpense: subj.maxExpense,
-        });
-      } else {
-        console.log("Document does not exist!!");
-      }
-    });
-
     this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
   }
 
@@ -145,7 +109,6 @@ class SetNotification extends Component {
           ]}
           onPress={() => {
             this.updateSubject();
-            this.props.navigation.navigate("ตรวจสอบ");
           }}
         >
           <Text>ยืนยันการแจ้งเตือน</Text>
