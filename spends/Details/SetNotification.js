@@ -36,7 +36,7 @@ class SetNotification extends Component {
     const updateSubjDoc = firebase
       .firestore()
       .collection("records")
-      .doc(this.state.key);
+      .doc("JuozgbXbLV7bnxmwVDVn");
     updateSubjDoc.set({
       maxExpense: this.state.maxExpense,
     });
@@ -65,6 +65,21 @@ class SetNotification extends Component {
   };
 
   componentDidMount() {
+    const subjDoc = firebase
+      .firestore()
+      .collection("records")
+      .doc("JuozgbXbLV7bnxmwVDVn");
+    subjDoc.get().then((res) => {
+      if (res.exists) {
+        const subj = res.data();
+        this.setState({
+          key: res.id,
+          maxExpense: subj.maxExpense,
+        });
+      } else {
+        console.log("Document does not exist!!");
+      }
+    });
     this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
   }
 
@@ -73,15 +88,6 @@ class SetNotification extends Component {
   }
 
   render() {
-    const totalIncome = this.state.save_list
-      .filter(
-        (item) =>
-          item.type === "รายรับ" &&
-          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
-            new Date().toLocaleString("en-US", { month: "long" })
-      )
-      .reduce((acc, item) => acc + item.price, 0);
-
     const totalExpense = this.state.save_list
       .filter(
         (item) =>
@@ -114,13 +120,10 @@ class SetNotification extends Component {
           <Text>ยืนยันการแจ้งเตือน</Text>
         </TouchableOpacity>
         <View>
-          <Text>+{totalIncome}</Text>
+          <Text>ปัจจุบัน: {totalExpense} bath</Text>
         </View>
         <View>
-          <Text>-{totalExpense}</Text>
-        </View>
-        <View>
-          <Text>{this.state.maxExpense}</Text>
+          <Text>ใช้ได้อีก: {this.state.maxExpense - totalExpense} bath</Text>
         </View>
       </View>
     );
