@@ -21,6 +21,7 @@ class SetNotification extends Component {
       description: "",
       type: "",
       category: "",
+      maxExpense: "",
       save_list: [],
     };
   }
@@ -87,6 +88,19 @@ class SetNotification extends Component {
   };
 
   componentDidMount() {
+    const subjDoc = firebase.firestore().collection("records");
+    subjDoc.get().then((res) => {
+      if (res.exists) {
+        const subj = res.data();
+        this.setState({
+          key: res.id,
+          maxExpense: subj.maxExpense,
+        });
+      } else {
+        console.log("Document does not exist!!");
+      }
+    });
+
     this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
   }
 
@@ -96,68 +110,54 @@ class SetNotification extends Component {
 
   render() {
     const totalIncome = this.state.save_list
-      .filter((item) => item.type === "รายรับ" && new Date(item.day).toLocaleString("en-US", { month: "long" }) === new Date().toLocaleString("en-US", { month: "long" }))
+      .filter(
+        (item) =>
+          item.type === "รายรับ" &&
+          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+            new Date().toLocaleString("en-US", { month: "long" })
+      )
       .reduce((acc, item) => acc + item.price, 0);
 
     const totalExpense = this.state.save_list
-      .filter((item) => item.type === "รายจ่าย" && new Date(item.day).toLocaleString("en-US", { month: "long" }) === new Date().toLocaleString("en-US", { month: "long" }))
+      .filter(
+        (item) =>
+          item.type === "รายจ่าย" &&
+          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+            new Date().toLocaleString("en-US", { month: "long" })
+      )
       .reduce((acc, item) => acc + item.price, 0);
     return (
       <View style={styles.container}>
-        <View style={styles.rowSection}>
-          <TextInput
-            style={styles.smolinput}
-            keyboardType="number-pad"
-            value={this.state.price.toString()}
-            onChangeText={(val) => this.inputValueUpdate(Number(val), "price")}
-            placeholder="จำนวน"
-          />
-          <TextInput
-            style={styles.smolinput}
-            value={this.state.day}
-            onChangeText={(val) => this.inputValueUpdate(val, "day")}
-            placeholder={moment(this.state.day).format("MM/D/YY")}
-          />
-        </View>
-
+        <Text>ตั้งค่ารายจ่ายสูงสุด</Text>
         <TextInput
           style={styles.smolinput}
-          value={this.state.category}
-          onChangeText={(val) => this.inputValueUpdate(val, "category")}
-          placeholder="หมวดหมู่"
+          keyboardType="number-pad"
+          value={this.state.maxExpense.toString()}
+          onChangeText={(val) => this.inputValueUpdate(Number(val), "maxExpense")}
+          placeholder="จำนวน"
         />
-
-        <TextInput
-          style={styles.input}
-          editable
-          multiline
-          numberOfLines={1}
-          value={this.state.description}
-          onChangeText={(val) => this.inputValueUpdate(val, "description")}
-          placeholder="คำอธิบาย"
-        />
-
-        <View style={styles.rowSection}>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              {
-                backgroundColor: "#EC8032",
-              },
-            ]}
-            onPress={() => {
-              this.updateSubject();
-              this.props.navigation.navigate("ตรวจสอบ");
-            }}
-          >
-            <Text>ยืนยันการแจ้งเตือน</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            {
+              backgroundColor: "#EC8032",
+            },
+          ]}
+          onPress={() => {
+            this.updateSubject();
+            this.props.navigation.navigate("ตรวจสอบ");
+          }}
+        >
+          <Text>ยืนยันการแจ้งเตือน</Text>
+        </TouchableOpacity>
         <View>
           <Text>+{totalIncome}</Text>
         </View>
         <View>
           <Text>-{totalExpense}</Text>
+        </View>
+        <View>
+          <Text>{this.state.maxExpense}</Text>
         </View>
       </View>
     );
