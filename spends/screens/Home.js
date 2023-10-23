@@ -17,7 +17,10 @@ class Home extends Component {
           <Text style={{ fontSize: 30, fontWeight: "bold", padding: 10 }}>
             รายการที่แนะนำ
           </Text>
-          <TouchableOpacity style={styles.card} onPress={() => this.props.navigation.navigate("เพิ่มรายการ")}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.navigation.navigate("เพิ่มรายการ")}
+          >
             <ImageBackground
               imageStyle={{ borderRadius: 10 }}
               source={require("../assets/1000image.png")}
@@ -25,9 +28,12 @@ class Home extends Component {
             >
               <Text style={styles.imageText}>บันทึก</Text>
             </ImageBackground>
-              <Text>บันทึกรายรับ - รายจ่ายของคุณ</Text>
+            <Text>บันทึกรายรับ - รายจ่ายของคุณ</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.card} onPress={() => this.props.navigation.navigate("ตรวจสอบ")}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => this.props.navigation.navigate("ตรวจสอบ")}
+          >
             <ImageBackground
               source={require("../assets/1001.png")}
               imageStyle={{ borderRadius: 10 }}
@@ -50,21 +56,30 @@ class Home extends Component {
           <Text style={{ fontSize: 20, padding: 20 }}>รายการอื่นๆ</Text>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.smolcard}>
+            <TouchableOpacity
+              style={styles.smolcard}
+              onPress={() => this.props.navigation.navigate("สถิติในแต่ละเดือน")}
+            >
               <View style={styles.insmolcard}>
                 <Ionicons name="bar-chart-outline" size={32} color="#EC8032" />
               </View>
               <Text style={styles.textsmol}>สถิติ</Text>
-            </View>
+            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.smolcard} onPress={() => this.props.navigation.navigate("เปรียบเทียบ")}>
+            <TouchableOpacity
+              style={styles.smolcard}
+              onPress={() => this.props.navigation.navigate("เปรียบเทียบ")}
+            >
               <View style={styles.insmolcard}>
                 <Ionicons name="podium-outline" size={32} color="#EC8032" />
               </View>
               <Text style={styles.textsmol}>เปรียบเทียบรายจ่าย</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.smolcard} onPress={() => this.props.navigation.navigate("การแจ้งเตือน")}>
+            <TouchableOpacity
+              style={styles.smolcard}
+              onPress={() => this.props.navigation.navigate("การแจ้งเตือน")}
+            >
               <View style={styles.insmolcard}>
                 <Ionicons name="calendar-outline" size={32} color="#EC8032" />
               </View>

@@ -12,10 +12,33 @@ import Tab4 from "../spends/screens/Tab4";
 import Notification from "./screens/Notification";
 import ChecklistDetail from "./Details/Checklistdetail";
 import SetNotification from "./Details/SetNotification";
+import Statistic from "./Details/Statistic";
 
 const Tab = createBottomTabNavigator();
+const HomeNavigator = createNativeStackNavigator();
 const ChecklistNavigator = createNativeStackNavigator();
 const SetNotiNavigator = createNativeStackNavigator();
+
+function HomeStack() {
+  return (
+    <HomeNavigator.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#EC8032" },
+        headerTintColor: "black",
+        headerTitleAlign: "center",
+      }}
+    >
+      <HomeNavigator.Screen
+        name="หน้าหลัก"
+        component={Home}
+      />
+      <HomeNavigator.Screen
+        name="สถิติในแต่ละเดือน"
+        component={Statistic}
+      />
+    </HomeNavigator.Navigator>
+  );
+}
 
 function ChecklistStack() {
   return (
@@ -83,9 +106,10 @@ export default function App() {
               tabBarIcon: ({ color }) => (
                 <AntDesign name="home" size={24} color={color} />
               ),
+              headerShown: false,
             }}
             name="หน้าหลัก"
-            component={Home}
+            component={HomeStack}
           />
           <Tab.Screen
             options={{
