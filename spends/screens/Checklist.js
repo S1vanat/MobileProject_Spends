@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import {
   ScrollView,
-  Image,
-  Touchable,
   TouchableOpacity,
-  Button,
   View,
   Text,
   Modal,
@@ -16,7 +13,6 @@ import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import ProgressBar from "react-native-progress-bar-animated";
 import { Ionicons } from "@expo/vector-icons";
-// import Modal from 'react-native-modal';
 import moment from "moment";
 
 class Checklist extends Component {
