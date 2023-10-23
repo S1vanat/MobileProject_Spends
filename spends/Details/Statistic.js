@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import firebase from "../database/firebaseDB";
 import ProgressBar from "react-native-progress-bar-animated";
 
@@ -94,7 +90,7 @@ class Statistic extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.frame, { width: "55%",margin: 10, flex: 1 }]}>
+        <View style={[styles.frame, { width: "55%", margin: 10, flex: 1 }]}>
           <Text>กราฟสรุปรายรับ-รายจ่ายในปีนี้</Text>
         </View>
         <View style={styles.frame}>

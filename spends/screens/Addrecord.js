@@ -5,14 +5,14 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Button
+  Button,
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import moment from "moment";
 import { ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert } from "react-native";
-import { Picker } from '@react-native-picker/picker';
+import { Picker } from "@react-native-picker/picker";
 
 // import { useState } from "react";
 // import DateTimePicker from "@react-native-community/datetimepicker";
@@ -43,8 +43,8 @@ class Addrecord extends Component {
         "อาหาร",
         "ผ่อนสินค้า",
         "ซื้อของใช้",
-        "การศึกษา"
-      ]
+        "การศึกษา",
+      ],
     };
   }
 
@@ -53,16 +53,17 @@ class Addrecord extends Component {
       const newCategories = [...this.state.categories, this.state.newCategory];
       this.setState({
         categories: newCategories,
-        newCategory: ""
+        newCategory: "",
       });
     }
   };
-  
+
   // ให้ผู้ใช้ป้อนหมวดหมู่ใหม่
   renderAddCategoryInput = () => {
     return (
-      <View >
-        <TextInput style={[styles.input, {width: "100%"}]}
+      <View>
+        <TextInput
+          style={[styles.input, { width: "100%" }]}
           value={this.state.newCategory}
           onChangeText={(text) => this.setState({ newCategory: text })}
           placeholder="เพิ่มหมวดหมู่ใหม่"
@@ -143,7 +144,6 @@ class Addrecord extends Component {
   render() {
     return (
       <View style={styles.container}>
-
         {/* กรอกข้อมูล */}
         <View style={styles.rowSection}>
           <TextInput
@@ -161,19 +161,19 @@ class Addrecord extends Component {
           />
         </View>
 
-      {/* ดรอปดาวของหมวดหมู่เพิ่มรายการ */}
+        {/* ดรอปดาวของหมวดหมู่เพิ่มรายการ */}
         <Picker
-            selectedValue={this.state.category}
-            onValueChange={(itemValue, itemIndex) => this.inputValueUpdate(itemValue, "category")}
-            style={styles.smolinput}
-          >
-            {this.state.categories.map((category, index) => (
-              <Picker.Item key={index} label={category} value={category} />
-            ))}
-          </Picker>
-        <View>
-          {this.renderAddCategoryInput()}
-        </View>
+          selectedValue={this.state.category}
+          onValueChange={(itemValue, itemIndex) =>
+            this.inputValueUpdate(itemValue, "category")
+          }
+          style={styles.smolinput}
+        >
+          {this.state.categories.map((category, index) => (
+            <Picker.Item key={index} label={category} value={category} />
+          ))}
+        </Picker>
+        <View>{this.renderAddCategoryInput()}</View>
 
         <TextInput
           style={styles.input}

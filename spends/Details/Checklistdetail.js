@@ -38,7 +38,7 @@ class ChecklistDetail extends Component {
           day: dateObject,
           category: subj.category,
           description: subj.description,
-          type: subj.type
+          type: subj.type,
         });
       } else {
         console.log("Document does not exist!!");
@@ -63,7 +63,7 @@ class ChecklistDetail extends Component {
       day: timestamp,
       description: this.state.description,
       category: this.state.category,
-      type: this.state.type
+      type: this.state.type,
     });
   }
 

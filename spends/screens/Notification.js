@@ -19,7 +19,7 @@ class Notification extends Component {
 
     this.state = {
       subject_list: [],
-      budget: 0
+      budget: 0,
     };
   }
 
@@ -77,23 +77,23 @@ class Notification extends Component {
             new Date().toLocaleString("en-US", { month: "long" })
       )
       .reduce((acc, item) => acc + item.price, 0);
-      const showSen = totalExpense > this.state.budget
+    const showSen = totalExpense > this.state.budget;
     return (
       <View style={{ flex: 1 }}>
-        { showSen && (
+        {showSen && (
           <View style={styles.rowSection}>
             <AntDesign name="exclamationcircleo" size={24} color="red" />
             <Text
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              color: "black",
-              fontWeight: "bold",
-              padding: 5
-            }}
-          >
-            ค่าใช้จ่ายประจำเดือนถึงเกิณฑ์ที่คุณกำหนดไว้
-          </Text>
+              style={{
+                textAlign: "center",
+                fontSize: 16,
+                color: "black",
+                fontWeight: "bold",
+                padding: 5,
+              }}
+            >
+              ค่าใช้จ่ายประจำเดือนถึงเกิณฑ์ที่คุณกำหนดไว้
+            </Text>
           </View>
         )}
         <ScrollView style={{ flex: 1 }}>

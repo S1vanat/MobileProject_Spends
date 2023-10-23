@@ -165,7 +165,7 @@ class Checklist extends Component {
     const expensePercentage = (totalExpense / totalIncome) * 100;
 
     return (
-      <View style={{ flex: 1, }}>
+      <View style={{ flex: 1 }}>
         {/* Dropdown เพื่อเลือกเดือน */}
         <Picker
           selectedValue={this.state.selectedMonth}
@@ -251,7 +251,7 @@ class Checklist extends Component {
             overflow: "hidden",
             alignSelf: "center",
             elevation: 8,
-            flex: 7
+            flex: 7,
           }}
         >
           <ScrollView style={{ flex: 1 }}>

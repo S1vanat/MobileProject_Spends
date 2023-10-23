@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  Alert,
-} from "react-native";
+import { ScrollView, View, Text, Alert } from "react-native";
 
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
@@ -13,21 +8,21 @@ import { Ionicons } from "@expo/vector-icons";
 // import Modal from 'react-native-modal';
 
 class CustomPicker extends Component {
-    render() {
-      const { selectedMonth, onValueChange, months } = this.props;
-      return (
-        <Picker
-          selectedValue={selectedMonth}
-          onValueChange={(itemValue) => onValueChange(itemValue)}
-          style={{ height: 50, width: 200, zIndex: 1, top: 0, left: 80 }}
-        >
-          {months.map((month, index) => (
-            <Picker.Item key={index} label={month.label} value={month.value} />
-          ))}
-        </Picker>
-      );
-    }
+  render() {
+    const { selectedMonth, onValueChange, months } = this.props;
+    return (
+      <Picker
+        selectedValue={selectedMonth}
+        onValueChange={(itemValue) => onValueChange(itemValue)}
+        style={{ height: 50, width: 200, zIndex: 1, top: 0, left: 80 }}
+      >
+        {months.map((month, index) => (
+          <Picker.Item key={index} label={month.label} value={month.value} />
+        ))}
+      </Picker>
+    );
   }
+}
 
 class Tab4 extends Component {
   constructor() {
@@ -126,22 +121,22 @@ class Tab4 extends Component {
     ];
 
     const filteredItems1 = this.state.subject_list.filter((item) => {
-        const isMonthMatch1 =
-          this.state.selectedMonth1 === "all" ||
-          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
-            this.state.selectedMonth1;
-    
-        return isMonthMatch1;
-      });
-    
-      const filteredItems2 = this.state.subject_list.filter((item) => {
-        const isMonthMatch2 =
-          this.state.selectedMonth2 === "all" ||
-          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
-            this.state.selectedMonth2;
-    
-        return isMonthMatch2;
-      });
+      const isMonthMatch1 =
+        this.state.selectedMonth1 === "all" ||
+        new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+          this.state.selectedMonth1;
+
+      return isMonthMatch1;
+    });
+
+    const filteredItems2 = this.state.subject_list.filter((item) => {
+      const isMonthMatch2 =
+        this.state.selectedMonth2 === "all" ||
+        new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+          this.state.selectedMonth2;
+
+      return isMonthMatch2;
+    });
 
     const categoryTotals1 = filteredItems1.reduce((acc, item) => {
       if (acc[item.category]) {
@@ -153,13 +148,13 @@ class Tab4 extends Component {
     }, {});
 
     const categoryTotals2 = filteredItems2.reduce((acc, item) => {
-        if (acc[item.category]) {
-          acc[item.category] += item.price;
-        } else {
-          acc[item.category] = item.price;
-        }
-        return acc;
-      }, {});
+      if (acc[item.category]) {
+        acc[item.category] += item.price;
+      } else {
+        acc[item.category] = item.price;
+      }
+      return acc;
+    }, {});
 
     const showIncome = filteredItems1
       .filter((item) => item.type === "รายรับ")
@@ -194,7 +189,7 @@ class Tab4 extends Component {
     const expensePercentage = (totalExpense / totalIncome) * 100;
 
     return (
-        <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             height: 200,
@@ -282,30 +277,29 @@ class Tab4 extends Component {
             alignSelf: "center",
           }}
         >
-          {showIncomeView && ( 
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 25,
-                  color: "black",
-                  paddingTop: 20,
-                }}
-              >
-                {showIncome} ฿
-              </Text>
+          {showIncomeView && (
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 25,
+                color: "black",
+                paddingTop: 20,
+              }}
+            >
+              {showIncome} ฿
+            </Text>
           )}
           {showExpenseView && (
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 25,
-                  color: "black",
-                  paddingTop: 20,
-                }}
-              >
-                {showExpense} ฿
-              </Text>
-            
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 25,
+                color: "black",
+                paddingTop: 20,
+              }}
+            >
+              {showExpense} ฿
+            </Text>
           )}
         </View>
         <View

@@ -58,7 +58,9 @@ class Home extends Component {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <TouchableOpacity
               style={styles.smolcard}
-              onPress={() => this.props.navigation.navigate("สถิติในแต่ละเดือน")}
+              onPress={() =>
+                this.props.navigation.navigate("สถิติในแต่ละเดือน")
+              }
             >
               <View style={styles.insmolcard}>
                 <Ionicons name="bar-chart-outline" size={32} color="#EC8032" />
