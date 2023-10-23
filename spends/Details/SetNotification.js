@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebaseDB";
+import ProgressBar from "react-native-progress-bar-animated";
 
 class SetNotification extends Component {
   constructor() {
@@ -97,7 +98,7 @@ class SetNotification extends Component {
       .reduce((acc, item) => acc + item.price, 0);
     return (
       <View style={styles.container}>
-        <Text>ตั้งค่ารายจ่ายสูงสุด</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 16 }}>ตั้งค่ารายจ่ายสูงสุด</Text>
         <TextInput
           style={styles.smolinput}
           keyboardType="number-pad"
@@ -117,28 +118,36 @@ class SetNotification extends Component {
             this.updateSubject();
           }}
         >
-          <Text>ยืนยันการแจ้งเตือน</Text>
+          <Text style={{ fontWeight: "bold", color: "white" }}>ยืนยันการแจ้งเตือน</Text>
         </TouchableOpacity>
-        <View
-          style={{ margin: 10, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ fontWeight: "bold" }}>
-            ปัจจุบัน: {totalExpense} bath
-          </Text>
-          <Text>
-            ({((totalExpense / this.state.budget) * 100).toFixed(2)}%)
-          </Text>
-          <Text style={{ fontWeight: "bold" }}>
-            ใช้ได้อีก: {this.state.budget - totalExpense} bath
-          </Text>
-          <Text>
-            (
-            {(
-              ((this.state.budget - totalExpense) / this.state.budget) *
-              100
-            ).toFixed(2)}
-            %)
-          </Text>
+        <View style={styles.frame}>
+          <View style={styles.rowSection}>
+            <Text style={{ fontWeight: "bold", padding: 2 }}>ปัจจุบัน:</Text>
+            <Text style={{ padding: 2 }}>
+              {totalExpense} bath (
+              {((totalExpense / this.state.budget) * 100).toFixed(2)}%)
+            </Text>
+          </View>
+          <View style={styles.rowSection}>
+            <Text style={{ fontWeight: "bold", padding: 2 }}>ใช้ได้อีก:</Text>
+            <Text style={{ padding: 2 }}>
+              {this.state.budget - totalExpense} bath (
+              {(
+                ((this.state.budget - totalExpense) / this.state.budget) *
+                100
+              ).toFixed(2)}
+              %)
+            </Text>
+          </View>
+          <ProgressBar
+            width={294}
+            height={15}
+            backgroundColor="dodgerblue"
+            value={(totalExpense / this.state.budget) * 100}
+            backgroundColorOnComplete="red"
+            borderRadius={5}
+            useNativeDriver={true}
+          />
         </View>
       </View>
     );
@@ -150,21 +159,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#ffd2ad",
+    backgroundColor: "whitesmoke",
   },
   rowSection: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "#000",
-    padding: 15,
+  frame: {
+    padding: 10,
     width: "80%",
-    marginVertical: 10,
     borderRadius: 10,
     backgroundColor: "white",
+    margin: 10,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.26,
+    elevation: 8,
   },
   smolinput: {
     borderWidth: 1,
@@ -184,18 +194,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     margin: 5,
-  },
-  list: {
-    marginBottom: 25,
-    marginTop: 15,
-    width: "90%",
-    backgroundColor: "white",
-    borderRadius: 20,
-    justifyContent: "center",
-    overflow: "hidden",
-    alignSelf: "center",
-    elevation: 8,
-    flex: 1,
   },
 });
 
