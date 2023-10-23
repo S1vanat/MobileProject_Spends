@@ -62,8 +62,8 @@ class Addrecord extends Component {
   // ให้ผู้ใช้ป้อนหมวดหมู่ใหม่
   renderAddCategoryInput = () => {
     return (
-      <View>
-        <TextInput
+      <View >
+        <TextInput style={[styles.input, {width: "100%"}]}
           value={this.state.newCategory}
           onChangeText={(text) => this.setState({ newCategory: text })}
           placeholder="เพิ่มหมวดหมู่ใหม่"
