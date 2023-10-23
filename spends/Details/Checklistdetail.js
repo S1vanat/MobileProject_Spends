@@ -4,12 +4,10 @@ import {
   Text,
   View,
   TextInput,
-  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import moment from "moment";
-import { Alert } from "react-native";
 
 class ChecklistDetail extends Component {
   constructor() {
