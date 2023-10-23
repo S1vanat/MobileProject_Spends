@@ -3,8 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import ProgressBar from "react-native-progress-bar-animated";
@@ -24,22 +22,6 @@ class Statistic extends Component {
       budget: "",
       save_list: [],
     };
-  }
-
-  inputValueUpdate = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  };
-
-  updateSubject() {
-    const updateSubjDoc = firebase
-      .firestore()
-      .collection("Budget")
-      .doc("cyX7uvJ70PVdlU1ZayeR");
-    updateSubjDoc.set({
-      budget: this.state.budget,
-    });
   }
 
   getCollection = (querySnapshot) => {
