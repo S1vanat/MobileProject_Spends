@@ -164,6 +164,14 @@ class Tab4 extends Component {
       .filter((item) => item.type === "รายจ่าย")
       .reduce((acc, item) => acc + item.price, 0);
 
+    const showIncome1 = filteredItems2
+      .filter((item) => item.type === "รายรับ")
+      .reduce((acc, item) => acc + item.price, 0);
+
+    const showExpense1 = filteredItems2
+      .filter((item) => item.type === "รายจ่าย")
+      .reduce((acc, item) => acc + item.price, 0);
+
     const allIncomeItems = this.state.subject_list.filter(
       (item) => item.type === "รายรับ"
     );
@@ -270,38 +278,86 @@ class Tab4 extends Component {
           </ScrollView>
         </View>
         {/* รวมเงิน */}
+        {/* เปรียบเทียบตรงนี้ */}
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
+            height: 200,
+            width: 370,
+            backgroundColor: "white",
+            borderRadius: 20,
+            justifyContent: "center",
+            overflow: "hidden",
             alignSelf: "center",
+            elevation: 8,
+            margin:15
           }}
         >
-          {showIncomeView && (
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 25,
-                color: "black",
-                paddingTop: 20,
-              }}
-            >
-              {showIncome} ฿
-            </Text>
-          )}
-          {showExpenseView && (
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 25,
-                color: "black",
-                paddingTop: 20,
-              }}
-            >
-              {showExpense} ฿
-            </Text>
-          )}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              alignSelf: "center",
+            }}
+          >
+            {showIncomeView && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 25,
+                  color: "black",
+                  paddingTop: 20,
+                }}
+              >
+                {showIncome} ฿
+              </Text>
+            )}
+            {showExpenseView && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 25,
+                  color: "black",
+                  paddingTop: 20,
+                }}
+              >
+                {showExpense} ฿
+              </Text>
+            )}
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              alignSelf: "center",
+            }}
+          >
+            {showIncomeView && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 25,
+                  color: "black",
+                  paddingTop: 20,
+                }}
+              >
+                {showIncome1} ฿
+              </Text>
+            )}
+            {showExpenseView && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 25,
+                  color: "black",
+                  paddingTop: 20,
+                }}
+              >
+                {showExpense1} ฿
+              </Text>
+            )}
+          </View>
         </View>
+
         <View
           style={{
             height: 200,
