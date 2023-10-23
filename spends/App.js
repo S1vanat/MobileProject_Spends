@@ -27,7 +27,7 @@ function ChecklistStack() {
       }}
     >
       <ChecklistNavigator.Screen
-        name="ตรวจสอบ"
+        name="ตรวจสอบ1"
         component={Checklist}
       />
       <ChecklistNavigator.Screen
@@ -48,7 +48,7 @@ function SetNotiStack() {
       }}
     >
       <SetNotiNavigator.Screen
-        name="การแจ้งเตือน"
+        name="การแจ้งเตือน1"
         component={Notification}
       />
       <SetNotiNavigator.Screen
@@ -94,7 +94,7 @@ export default function App() {
               ),
               headerShown: false,
             }}
-            name="ตรวจสอบ1"
+            name="ตรวจสอบ"
             component={ChecklistStack}
           />
           <Tab.Screen
@@ -124,7 +124,7 @@ export default function App() {
               ),
               headerShown: false,
             }}
-            name="การแจ้งเตือน1"
+            name="การแจ้งเตือน"
             component={SetNotiStack}
           />
         </Tab.Navigator>
