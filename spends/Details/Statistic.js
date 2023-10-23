@@ -15,7 +15,6 @@ class Statistic extends Component {
       description: "",
       type: "",
       category: "",
-      budget: "",
       save_list: [],
     };
   }
@@ -43,21 +42,6 @@ class Statistic extends Component {
   };
 
   componentDidMount() {
-    const subjDoc = firebase
-      .firestore()
-      .collection("Budget")
-      .doc("cyX7uvJ70PVdlU1ZayeR");
-    subjDoc.get().then((res) => {
-      if (res.exists) {
-        const subj = res.data();
-        this.setState({
-          key: res.id,
-          budget: subj.budget,
-        });
-      } else {
-        console.log("Document does not exist!!");
-      }
-    });
     this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
   }
 

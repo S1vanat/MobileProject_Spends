@@ -8,8 +8,65 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import firebase from "../database/firebaseDB";
 
 class Home extends Component {
+  constructor() {
+    super();
+
+    this.saveCollection = firebase.firestore().collection("lists");
+
+    this.state = {
+      price: "",
+      day: "",
+      description: "",
+      type: "",
+      category: "",
+      budget: "",
+      save_list: [],
+    };
+  }
+
+  getCollection = (querySnapshot) => {
+    const all_data = [];
+    querySnapshot.forEach((res) => {
+      const { price, day, description, type, category } = res.data();
+      const dateObject = new Date(day.seconds * 1000);
+      all_data.push({
+        key: res.id,
+        price,
+        day: dateObject,
+        description,
+        type,
+        category,
+      });
+    });
+
+    all_data.sort((a, b) => b.day - a.day);
+
+    this.setState({
+      save_list: all_data,
+    });
+  };
+
+  componentDidMount() {
+    const subjDoc = firebase
+      .firestore()
+      .collection("Budget")
+      .doc("cyX7uvJ70PVdlU1ZayeR");
+    subjDoc.get().then((res) => {
+      if (res.exists) {
+        const subj = res.data();
+        this.setState({
+          key: res.id,
+          budget: subj.budget,
+        });
+      } else {
+        console.log("Document does not exist!!");
+      }
+    });
+    this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
+  }
   render() {
     return (
       <ScrollView style={{ flex: 1 }}>
