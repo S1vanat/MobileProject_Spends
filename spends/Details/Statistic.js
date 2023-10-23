@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebaseDB";
+import ProgressBar from "react-native-progress-bar-animated";
 
 class Statistic extends Component {
   constructor() {
@@ -86,52 +87,231 @@ class Statistic extends Component {
     this.unsubscribe();
   }
 
-  render() {
-    const totalExpense = this.state.save_list
+  totalExpense(month) {
+    return this.state.save_list
       .filter(
         (item) =>
           item.type === "รายจ่าย" &&
           new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
-            new Date().toLocaleString("en-US", { month: "long" })
+            month
       )
       .reduce((acc, item) => acc + item.price, 0);
+  }
+
+  totalIncome(month) {
+    return this.state.save_list
+      .filter(
+        (item) =>
+          item.type === "รายรับ" &&
+          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+            month
+      )
+      .reduce((acc, item) => acc + item.price, 0);
+  }
+
+  render() {
     return (
       <View style={styles.container}>
-        <Text>ตั้งค่ารายจ่ายสูงสุด</Text>
-        <TextInput
-          style={styles.smolinput}
-          keyboardType="number-pad"
-          value={this.state.budget.toString()}
-          onChangeText={(val) => this.inputValueUpdate(Number(val), "budget")}
-          placeholder="จำนวน"
-        />
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {
-              backgroundColor: "#EC8032",
-            },
-          ]}
-          onPress={() => {
-            this.props.navigation.navigate("การแจ้งเตือน");
-            this.updateSubject();
-          }}
-        >
-          <Text>ยืนยันการแจ้งเตือน</Text>
-        </TouchableOpacity>
-        <View
-          style={{ margin: 10, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ fontWeight: "bold" }}>
-            ปัจจุบัน: {totalExpense} bath
-          </Text>
-          <Text>({((totalExpense / this.state.budget) * 100).toFixed(2)}%)</Text>
-          <Text style={{ fontWeight: "bold" }}>
-            ใช้ได้อีก: {this.state.budget - totalExpense} bath
-          </Text>
-          <Text>
-            ({(((this.state.budget - totalExpense) / this.state.budget) * 100).toFixed(2)}%)
-          </Text>
+        <View style={[styles.frame, { width: "55%",margin: 10, flex: 1 }]}>
+          <Text>กราฟสรุปรายรับ-รายจ่ายในปีนี้</Text>
+        </View>
+        <View style={styles.frame}>
+          {/* เดือน 1 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>มกราคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("January") / this.totalIncome("January")) *
+                100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 2 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>กุมภาพันธ์</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("February") / this.totalIncome("February")) *
+                100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 3 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>มีนาคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("March") / this.totalIncome("March")) * 100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 4 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>เมษายน</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("April") / this.totalIncome("April")) * 100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 5 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>พฏษภาคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={(this.totalExpense("May") / this.totalIncome("May")) * 100}
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 6 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>มิถุนายน</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("June") / this.totalIncome("June")) * 100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 7 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>กรกฏาคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("July") / this.totalIncome("July")) * 100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 8 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>สิงหาคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("August") / this.totalIncome("August")) * 100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 9 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>กันยายน</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("September") /
+                  this.totalIncome("September")) *
+                100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 10 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>ตุลาคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("October") / this.totalIncome("October")) *
+                100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 11 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>พฤษจิกายน</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("November") / this.totalIncome("November")) *
+                100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
+
+          {/* เดือน 12 */}
+          <View style={styles.graph}>
+            <Text style={styles.textMonth}>ธันวาคม</Text>
+            <ProgressBar
+              width={200}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={
+                (this.totalExpense("December") / this.totalIncome("December")) *
+                100
+              }
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
+          </View>
         </View>
       </View>
     );
@@ -141,54 +321,24 @@ class Statistic extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#ffd2ad",
   },
-  rowSection: {
+  graph: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
+    marginBottom: 16,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "#000",
-    padding: 15,
-    width: "80%",
-    marginVertical: 10,
-    borderRadius: 10,
-    backgroundColor: "white",
-  },
-  smolinput: {
-    borderWidth: 1,
-    borderColor: "#000",
+  frame: {
     padding: 10,
-    width: "35%",
-    marginVertical: 10,
+    width: "80%",
     borderRadius: 10,
-    margin: 5,
-    backgroundColor: "white",
+    backgroundColor: "#F6F6F6",
   },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    elevation: 3,
-    margin: 5,
-  },
-  list: {
-    marginBottom: 25,
-    marginTop: 15,
-    width: "90%",
-    backgroundColor: "white",
-    borderRadius: 20,
-    justifyContent: "center",
-    overflow: "hidden",
-    alignSelf: "center",
-    elevation: 8,
-    flex: 1,
+  textMonth: {
+    padding: 5,
+    width: 85,
   },
 });
 
