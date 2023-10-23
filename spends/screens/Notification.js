@@ -66,7 +66,6 @@ class Notification extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
-    this.subjDoc;
   }
 
   render() {

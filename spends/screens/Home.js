@@ -71,7 +71,6 @@ class Home extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
-    this.subjDoc;
   }
 
   render() {
