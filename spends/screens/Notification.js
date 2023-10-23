@@ -46,11 +46,11 @@ class Notification extends Component {
   };
 
   componentDidMount() {
-    const subjDoc = firebase
+    this.subjDoc = firebase
       .firestore()
       .collection("Budget")
       .doc("cyX7uvJ70PVdlU1ZayeR");
-    subjDoc.get().then((res) => {
+      this.subjDoc.get().then((res) => {
       if (res.exists) {
         const subj = res.data();
         this.setState({
@@ -66,6 +66,7 @@ class Notification extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+    this.subjDoc;
   }
 
   render() {
@@ -77,7 +78,7 @@ class Notification extends Component {
             new Date().toLocaleString("en-US", { month: "long" })
       )
       .reduce((acc, item) => acc + item.price, 0);
-    const showSen = totalExpense > this.state.budget;
+    var showSen = totalExpense > this.state.budget;
     return (
       <View style={{ flex: 1 }}>
         {showSen && (
