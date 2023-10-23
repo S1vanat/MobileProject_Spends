@@ -121,7 +121,7 @@ class Home extends Component {
             <ProgressBar
               width={275}
               height={15}
-              backgroundColor="#B09FFF"
+              backgroundColor="orange"
               value={(totalExpense / this.state.budget) * 100}
               backgroundColorOnComplete="red"
               borderRadius={5}
