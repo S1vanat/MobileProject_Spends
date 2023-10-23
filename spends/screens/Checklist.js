@@ -10,9 +10,11 @@ import {
   Modal,
   Alert,
 } from "react-native";
+
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
+import ProgressBar from 'react-native-progress-bar-animated';
 import { Ionicons } from "@expo/vector-icons";
 // import Modal from 'react-native-modal';
 import moment from "moment";
@@ -22,6 +24,7 @@ class Checklist extends Component {
     super();
 
     this.subjCollection = firebase.firestore().collection("lists");
+    this.budgCollection = firebase.firestore().collection("Budget");
 
     this.state = {
       subject_list: [],
@@ -91,7 +94,7 @@ class Checklist extends Component {
     delSubjDoc.delete().then((res) => {
       Alert.alert(
         "Deleting Alert",
-        "The subject was deleted!! Pls check your DB!!"
+        "ลบรายการแล้ว"
       );
     });
   }
@@ -129,19 +132,29 @@ class Checklist extends Component {
       return isMonthMatch && isTypeMatch && isCateMatch;
     });
 
-    const totalIncome = filteredItems
-      .filter((item) => item.type === "รายรับ")
-      .reduce((acc, item) => acc + item.price, 0);
+    const showIncome = filteredItems
+    .filter((item) => item.type === "รายรับ")
+    .reduce((acc, item) => acc + item.price, 0);
 
-    const totalExpense = filteredItems
-      .filter((item) => item.type === "รายจ่าย")
-      .reduce((acc, item) => acc + item.price, 0);
+    const showExpense = filteredItems
+    .filter((item) => item.type === "รายจ่าย")
+    .reduce((acc, item) => acc + item.price, 0);
+
+
+    const allIncomeItems = this.state.subject_list.filter((item) => item.type === "รายรับ");
+    const allExpenseItems = this.state.subject_list.filter((item) => item.type === "รายจ่าย");
+
+    const totalIncome = allIncomeItems.reduce((acc, item) => acc + item.price, 0);
+    const totalExpense = allExpenseItems.reduce((acc, item) => acc + item.price, 0);
 
     const showIncomeView =
       this.state.selectedType === "รายรับ" || this.state.selectedType === "all";
     const showExpenseView =
       this.state.selectedType === "รายจ่าย" ||
       this.state.selectedType === "all";
+
+    const expensePercentage = (totalExpense / totalIncome) * 100;
+
 
     return (
       <View>
@@ -434,9 +447,7 @@ class Checklist extends Component {
                           >
                             หมวดหมู่: {item.category}
                           </ListItem.Subtitle>
-                          {/* <ListItem.Subtitle style={{fontSize:10}}>
-                            วันที่: {item.day.toLocaleString("en-US")}
-                          </ListItem.Subtitle> */}
+                          
                         </View>
                         <View style={{ flex: 1, alignItems: "flex-end" }}>
                           <ListItem.Title
@@ -485,7 +496,7 @@ class Checklist extends Component {
                   paddingTop: 20,
                 }}
               >
-                {totalIncome} ฿
+                {showIncome} ฿
               </Text>
             </View>
           )}
@@ -510,11 +521,23 @@ class Checklist extends Component {
                   paddingTop: 20,
                 }}
               >
-                {totalExpense} ฿
+                {showExpense} ฿
               </Text>
             </View>
           )}
         </View>
+        <View style={{ margin: 16, justifyContent: 'center', alignItems: 'center',}}>
+        <Text style={{ textAlign: 'center', padding:15}}>ใช้จ่ายไปแล้ว: {expensePercentage.toFixed(2)}%</Text>
+        <ProgressBar
+          width={300}
+          height={15}
+          backgroundColor='orange'
+          value={expensePercentage}
+          backgroundColorOnComplete="red"
+          borderRadius={5}
+          useNativeDriver={true}
+        />
+      </View>
       </View>
     );
   }
