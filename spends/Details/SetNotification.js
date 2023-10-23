@@ -118,11 +118,19 @@ class SetNotification extends Component {
         >
           <Text>ยืนยันการแจ้งเตือน</Text>
         </TouchableOpacity>
-        <View>
-          <Text>ปัจจุบัน: {totalExpense} bath</Text>
-        </View>
-        <View>
-          <Text>ใช้ได้อีก: {this.state.budget - totalExpense} bath</Text>
+        <View
+          style={{ margin: 10, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text style={{ fontWeight: "bold" }}>
+            ปัจจุบัน: {totalExpense} bath
+          </Text>
+          <Text>({(totalExpense / this.state.budget) * 100}%)</Text>
+          <Text style={{ fontWeight: "bold" }}>
+            ใช้ได้อีก: {this.state.budget - totalExpense} bath
+          </Text>
+          <Text>
+            ({((this.state.budget - totalExpense) / this.state.budget) * 100}%)
+          </Text>
         </View>
       </View>
     );
