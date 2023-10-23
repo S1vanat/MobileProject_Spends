@@ -52,21 +52,21 @@ class Home extends Component {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.smolcard}>
               <View style={styles.insmolcard}>
-                <Ionicons name="bar-chart-outline" size={32} color="orange" />
+                <Ionicons name="bar-chart-outline" size={32} color="#EC8032" />
               </View>
               <Text style={styles.textsmol}>สถิติ</Text>
             </View>
 
             <TouchableOpacity style={styles.smolcard} onPress={() => this.props.navigation.navigate("เปรียบเทียบ")}>
               <View style={styles.insmolcard}>
-                <Ionicons name="podium-outline" size={32} color="orange" />
+                <Ionicons name="podium-outline" size={32} color="#EC8032" />
               </View>
               <Text style={styles.textsmol}>เปรียบเทียบรายจ่าย</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.smolcard} onPress={() => this.props.navigation.navigate("การแจ้งเตือน")}>
               <View style={styles.insmolcard}>
-                <Ionicons name="calendar-outline" size={32} color="orange" />
+                <Ionicons name="calendar-outline" size={32} color="#EC8032" />
               </View>
               <Text style={styles.textsmol}>ตารางการแจ้งเตือน</Text>
             </TouchableOpacity>

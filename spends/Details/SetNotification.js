@@ -142,7 +142,7 @@ class SetNotification extends Component {
             style={[
               styles.button,
               {
-                backgroundColor: "#13C999",
+                backgroundColor: "#EC8032",
               },
             ]}
             onPress={() => {
@@ -150,7 +150,7 @@ class SetNotification extends Component {
               this.props.navigation.navigate("ตรวจสอบ");
             }}
           >
-            <Text>ยืนยันการแก้ไข</Text>
+            <Text>ยืนยันการแจ้งเตือน</Text>
           </TouchableOpacity>
         </View>
         <View>

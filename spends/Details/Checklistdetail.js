@@ -110,7 +110,7 @@ class ChecklistDetail extends Component {
             style={[
               styles.button,
               {
-                backgroundColor: "#13C999",
+                backgroundColor: "#EC8032",
               },
             ]}
             onPress={() => {
