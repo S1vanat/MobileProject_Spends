@@ -80,7 +80,7 @@ class Notification extends Component {
             new Date().toLocaleString("en-US", { month: "long" })
       )
       .reduce((acc, item) => acc + item.price, 0);
-      const showSen = Number(totalExpense) > this.state.budget
+      const showSen = totalExpense > this.state.budget
     return (
       <View style={{ flex: 1 }}>
         { showSen && (
