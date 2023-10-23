@@ -113,6 +113,7 @@ class SetNotification extends Component {
             },
           ]}
           onPress={() => {
+            this.props.navigation.navigate("การแจ้งเตือน");
             this.updateSubject();
           }}
         >
