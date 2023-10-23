@@ -85,7 +85,6 @@ class SetNotification extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
-    this.subjDoc;
   }
 
   render() {
