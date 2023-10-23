@@ -125,12 +125,12 @@ class SetNotification extends Component {
           <Text style={{ fontWeight: "bold" }}>
             ปัจจุบัน: {totalExpense} bath
           </Text>
-          <Text>({(totalExpense / this.state.budget) * 100}%)</Text>
+          <Text>({((totalExpense / this.state.budget) * 100).toFixed(2)}%)</Text>
           <Text style={{ fontWeight: "bold" }}>
             ใช้ได้อีก: {this.state.budget - totalExpense} bath
           </Text>
           <Text>
-            ({((this.state.budget - totalExpense) / this.state.budget) * 100}%)
+            ({(((this.state.budget - totalExpense) / this.state.budget) * 100).toFixed(2)}%)
           </Text>
         </View>
       </View>
