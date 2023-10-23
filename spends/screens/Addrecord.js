@@ -68,7 +68,7 @@ class Addrecord extends Component {
           onChangeText={(text) => this.setState({ newCategory: text })}
           placeholder="เพิ่มหมวดหมู่ใหม่"
         />
-        <Button title="เพิ่ม" onPress={this.addNewCategory} />
+        <Button style={{borderRadius:10}} title="เพิ่ม" onPress={this.addNewCategory} />
       </View>
     );
   };

@@ -8,7 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Home from "../spends/screens/Home";
 import Checklist from "./screens/Checklist";
 import Addrecord from "../spends/screens/Addrecord";
-import Tab4 from "../spends/screens/Tab4";
+import Compare from "./screens/Compare";
 import Notification from "./screens/Notification";
 import ChecklistDetail from "./Details/Checklistdetail";
 import SetNotification from "./Details/SetNotification";
@@ -127,7 +127,7 @@ export default function App() {
               ),
             }}
             name="เปรียบเทียบ"
-            component={Tab4}
+            component={Compare}
           />
           <Tab.Screen
             options={{

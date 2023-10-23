@@ -5,6 +5,7 @@ import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
+import ProgressBar from "react-native-progress-bar-animated";
 // import Modal from 'react-native-modal';
 
 class CustomPicker extends Component {
@@ -24,7 +25,7 @@ class CustomPicker extends Component {
   }
 }
 
-class Tab4 extends Component {
+class Prepare extends Component {
   constructor() {
     super();
 
@@ -194,10 +195,11 @@ class Tab4 extends Component {
       this.state.selectedType === "รายจ่าย" ||
       this.state.selectedType === "all";
 
-    const expensePercentage = (totalExpense / totalIncome) * 100;
+    const expensePercentage = (showExpense / showIncome) * 100;
+    const expensePercentage1 = (showExpense1 / showIncome1) * 100;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#ffd2ad" }}>
         <View
           style={{
             height: 200,
@@ -267,7 +269,17 @@ class Tab4 extends Component {
                     {/* <ListItem.Subtitle style={{ fontSize: 10, textAlign: "left" }}>รวมยอด: {total}</ListItem.Subtitle> */}
                   </View>
                   <View style={{ flex: 1, alignItems: "flex-end" }}>
-                    <ListItem.Title style={{ textAlign: "right" }}>
+                    <ListItem.Title
+                      style={{
+                        textAlign: "right",
+                        color:
+                          category === "ลงทุน" ||
+                          category === "ทำงาน" ||
+                          category === "โบนัส"
+                            ? "green"
+                            : "red",
+                      }}
+                    >
                       {total + " ฿"}
                     </ListItem.Title>
                   </View>
@@ -281,49 +293,88 @@ class Tab4 extends Component {
         {/* เปรียบเทียบตรงนี้ */}
         <View
           style={{
+            alignItems: "center",
+            justifyContent: "center",
             height: 200,
             width: 370,
             backgroundColor: "white",
             borderRadius: 20,
-            justifyContent: "center",
             overflow: "hidden",
-            alignSelf: "center",
             elevation: 8,
-            margin:15
+            margin: 21,
+            paddingBottom: 10,
+            paddingTop: 10,
+            borderWidth: 1,
           }}
         >
+          <Text style={{ textAlign: "center", padding: 5 }}>
+            {expensePercentage.toFixed(2)}%
+          </Text>
+          <ProgressBar
+            width={250}
+            height={20}
+            backgroundColor="orange"
+            value={expensePercentage}
+            backgroundColorOnComplete="red"
+            borderRadius={5}
+            useNativeDriver={true}
+          />
+          <View
+            style={{
+              position: "absolute",
+              top: "55%",
+              height: 1,
+              width: "100%",
+              backgroundColor: "black",
+            }}
+          />
+          <Ionicons
+            style={{ position: "absolute", top: 23, right: 23 }}
+            name="add-circle-outline"
+            size={32}
+            color="green"
+          ></Ionicons>
+          <Ionicons
+            style={{ position: "absolute", top: 23, left: 25 }}
+            name="remove-circle-outline"
+            size={32}
+            color="red"
+          ></Ionicons>
           <View
             style={{
               flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
               alignSelf: "center",
+              paddingBottom:42
             }}
           >
+            {showExpenseView && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 15,
+                  color: "black",
+                  
+                }}
+              >
+                {showExpense}฿-
+              </Text>
+            )}
             {showIncomeView && (
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 25,
+                  fontSize: 15,
                   color: "black",
-                  paddingTop: 20,
                 }}
               >
                 {showIncome} ฿
               </Text>
             )}
-            {showExpenseView && (
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 25,
-                  color: "black",
-                  paddingTop: 20,
-                }}
-              >
-                {showExpense} ฿
-              </Text>
-            )}
+            
           </View>
+
           <View
             style={{
               flexDirection: "row",
@@ -331,33 +382,58 @@ class Tab4 extends Component {
               alignSelf: "center",
             }}
           >
-            {showIncomeView && (
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 25,
-                  color: "black",
-                  paddingTop: 20,
-                }}
-              >
-                {showIncome1} ฿
-              </Text>
-            )}
+            
             {showExpenseView && (
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 25,
+                  fontSize: 15,
                   color: "black",
                   paddingTop: 20,
                 }}
               >
-                {showExpense1} ฿
+                {showExpense1}฿-
+                {showIncomeView && (
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 15,
+                  color: "black",
+                  paddingTop: 20,
+                }}
+              >
+                {showIncome1}฿
+              </Text>
+            )}
               </Text>
             )}
           </View>
+          <ProgressBar
+            width={250}
+            height={20}
+            backgroundColor="orange"
+            value={expensePercentage1}
+            backgroundColorOnComplete="red"
+            borderRadius={5}
+            useNativeDriver={true}
+          />
+          <Text style={{ textAlign: "center", padding: 5 }}>
+            {expensePercentage1.toFixed(2)}%
+          </Text>
+          <Ionicons
+            style={{ position: "absolute", bottom: 22, right: 22 }}
+            name="add-circle-outline"
+            size={32}
+            color="green"
+          ></Ionicons>
+          <Ionicons
+            style={{ position: "absolute", bottom: 23, left: 25 }}
+            name="remove-circle-outline"
+            size={32}
+            color="red"
+          ></Ionicons>
         </View>
-
+        {/* จบเปรียบเทียบ */}
         <View
           style={{
             height: 200,
@@ -424,10 +500,19 @@ class Tab4 extends Component {
                     <ListItem.Title style={{ fontSize: 16, textAlign: "left" }}>
                       {category}
                     </ListItem.Title>
-                    {/* <ListItem.Subtitle style={{ fontSize: 10, textAlign: "left" }}>รวมยอด: {total}</ListItem.Subtitle> */}
                   </View>
                   <View style={{ flex: 1, alignItems: "flex-end" }}>
-                    <ListItem.Title style={{ textAlign: "right" }}>
+                    <ListItem.Title
+                      style={{
+                        textAlign: "right",
+                        color:
+                          category === "ลงทุน" ||
+                          category === "ทำงาน" ||
+                          category === "โบนัส"
+                            ? "green"
+                            : "red",
+                      }}
+                    >
                       {total + " ฿"}
                     </ListItem.Title>
                   </View>
@@ -442,4 +527,4 @@ class Tab4 extends Component {
   }
 }
 
-export default Tab4;
+export default Prepare;

@@ -165,7 +165,7 @@ class Checklist extends Component {
     const expensePercentage = (totalExpense / totalIncome) * 100;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor:'#ffd2ad' }}>
         {/* Dropdown เพื่อเลือกเดือน */}
         <Picker
           selectedValue={this.state.selectedMonth}
@@ -252,6 +252,7 @@ class Checklist extends Component {
             alignSelf: "center",
             elevation: 8,
             flex: 7,
+            borderWidth:1
           }}
         >
           <ScrollView style={{ flex: 1 }}>
@@ -551,7 +552,7 @@ class Checklist extends Component {
           }}
         >
           <Text style={{ textAlign: "center", padding: 5 }}>
-            ใช้จ่ายไปแล้ว: {expensePercentage.toFixed(2)}%
+            ใช้จ่ายไปทั้งหมด: {expensePercentage.toFixed(2)}%
           </Text>
           <ProgressBar
             width={300}
@@ -559,8 +560,9 @@ class Checklist extends Component {
             backgroundColor="orange"
             value={expensePercentage}
             backgroundColorOnComplete="red"
-            borderRadius={5}
             useNativeDriver={true}
+            borderColor="black" // สีของกรอบ
+            borderWidth={1} // ความหนาของกรอบ
           />
         </View>
       </View>
