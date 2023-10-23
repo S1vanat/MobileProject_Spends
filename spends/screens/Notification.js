@@ -12,6 +12,7 @@ import {
 import firebase from "../database/firebaseDB";
 import { ListItem } from "react-native-elements";
 import moment from "moment";
+import { AntDesign } from "@expo/vector-icons";
 
 class Notification extends Component {
   constructor() {
@@ -21,6 +22,7 @@ class Notification extends Component {
 
     this.state = {
       subject_list: [],
+      budget: ""
     };
   }
 
@@ -47,6 +49,21 @@ class Notification extends Component {
   };
 
   componentDidMount() {
+    const subjDoc = firebase
+      .firestore()
+      .collection("Budget")
+      .doc("cyX7uvJ70PVdlU1ZayeR");
+    subjDoc.get().then((res) => {
+      if (res.exists) {
+        const subj = res.data();
+        this.setState({
+          key: res.id,
+          budget: subj.budget,
+        });
+      } else {
+        console.log("Document does not exist!!");
+      }
+    });
     this.unsubscribe = this.subjCollection.onSnapshot(this.getCollection);
   }
 
@@ -55,8 +72,32 @@ class Notification extends Component {
   }
 
   render() {
+    const totalExpense = this.state.subject_list
+      .filter(
+        (item) =>
+          item.type === "รายจ่าย" &&
+          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+            new Date().toLocaleString("en-US", { month: "long" })
+      )
+      .reduce((acc, item) => acc + item.price, 0);
     return (
       <View style={{ flex: 1 }}>
+        { (Number(totalExpense) > this.state.budget) && (
+          <View style={styles.rowSection}>
+            <AntDesign name="exclamationcircleo" size={24} color="red" />
+            <Text
+            style={{
+              textAlign: "center",
+              fontSize: 16,
+              color: "black",
+              fontWeight: "bold",
+              padding: 5
+            }}
+          >
+            ค่าใช้จ่ายประจำเดือนถึงเกิณฑ์ที่คุณกำหนดไว้
+          </Text>
+          </View>
+        )}
         <ScrollView style={{ flex: 1 }}>
           {this.state.subject_list.map((item, i) => {
             const sign = item.type === "รายรับ" ? "+฿" : "-฿";
@@ -120,6 +161,12 @@ const styles = StyleSheet.create({
     right: 10,
     alignSelf: "flex-end",
     height: "10%",
+  },
+  rowSection: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20,
   },
 });
 
