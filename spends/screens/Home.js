@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import firebase from "../database/firebaseDB";
+import ProgressBar from "react-native-progress-bar-animated";
 
 class Home extends Component {
   constructor() {
@@ -67,7 +68,16 @@ class Home extends Component {
     });
     this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
   }
+
   render() {
+    const totalExpense = this.state.save_list
+      .filter(
+        (item) =>
+          item.type === "รายจ่าย" &&
+          new Date(item.day).toLocaleString("en-US", { month: "long" }) ===
+            new Date().toLocaleString("en-US", { month: "long" })
+      )
+      .reduce((acc, item) => acc + item.price, 0);
     return (
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
@@ -103,12 +113,21 @@ class Home extends Component {
             >
               <Text style={styles.imageText}>ตรวจสอบรายการ</Text>
             </ImageBackground>
-            <Text>คุณใช้จ่ายไปแล้ว</Text>
+            <Text style={{ margin: 5 }}>
+              เดือนนี้คุณใช้จ่ายไปแล้ว (
+              {((totalExpense / this.state.budget) * 100).toFixed(2)}%)
+            </Text>
             {/* ตรงนี้เดี๋ยวใส่เปอเซ้นที่จ่ายไปแล้ว */}
+            <ProgressBar
+              width={275}
+              height={15}
+              backgroundColor="#B09FFF"
+              value={(totalExpense / this.state.budget) * 100}
+              backgroundColorOnComplete="red"
+              borderRadius={5}
+              useNativeDriver={true}
+            />
           </TouchableOpacity>
-          {/* <View style={styles.card}>
-        <Text>คุณใช้จ่ายไปแล้ว</Text>
-      </View> */}
 
           <Text style={{ fontSize: 20, padding: 20 }}>รายการอื่นๆ</Text>
 
