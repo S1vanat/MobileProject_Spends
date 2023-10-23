@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import firebase from "../database/firebaseDB";
-import moment from "moment";
 
 class SetNotification extends Component {
   constructor() {
@@ -21,7 +20,7 @@ class SetNotification extends Component {
       description: "",
       type: "",
       category: "",
-      maxExpense: "",
+      budget: "",
       save_list: [],
     };
   }
@@ -35,10 +34,10 @@ class SetNotification extends Component {
   updateSubject() {
     const updateSubjDoc = firebase
       .firestore()
-      .collection("records")
-      .doc("JuozgbXbLV7bnxmwVDVn");
+      .collection("Budget")
+      .doc("cyX7uvJ70PVdlU1ZayeR");
     updateSubjDoc.set({
-      maxExpense: this.state.maxExpense,
+      budget: this.state.budget,
     });
   }
 
@@ -67,14 +66,14 @@ class SetNotification extends Component {
   componentDidMount() {
     const subjDoc = firebase
       .firestore()
-      .collection("records")
-      .doc("JuozgbXbLV7bnxmwVDVn");
+      .collection("Budget")
+      .doc("cyX7uvJ70PVdlU1ZayeR");
     subjDoc.get().then((res) => {
       if (res.exists) {
         const subj = res.data();
         this.setState({
           key: res.id,
-          maxExpense: subj.maxExpense,
+          budget: subj.budget,
         });
       } else {
         console.log("Document does not exist!!");
@@ -102,8 +101,8 @@ class SetNotification extends Component {
         <TextInput
           style={styles.smolinput}
           keyboardType="number-pad"
-          value={this.state.maxExpense.toString()}
-          onChangeText={(val) => this.inputValueUpdate(Number(val), "maxExpense")}
+          value={this.state.budget.toString()}
+          onChangeText={(val) => this.inputValueUpdate(Number(val), "budget")}
           placeholder="จำนวน"
         />
         <TouchableOpacity
@@ -123,7 +122,7 @@ class SetNotification extends Component {
           <Text>ปัจจุบัน: {totalExpense} bath</Text>
         </View>
         <View>
-          <Text>ใช้ได้อีก: {this.state.maxExpense - totalExpense} bath</Text>
+          <Text>ใช้ได้อีก: {this.state.budget - totalExpense} bath</Text>
         </View>
       </View>
     );
