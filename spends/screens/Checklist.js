@@ -175,7 +175,6 @@ class Checklist extends Component {
           style={{
             height: 50,
             width: 200,
-
             top: 0,
             zIndex: 1,
             left: 200,

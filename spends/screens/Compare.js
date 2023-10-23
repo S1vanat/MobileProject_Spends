@@ -202,7 +202,8 @@ class Prepare extends Component {
       <View style={{ flex: 1, backgroundColor: "#ffd2ad" }}>
         <View
           style={{
-            height: 200,
+            marginTop:15,
+            height: 180,
             width: 370,
             backgroundColor: "white",
             borderRadius: 20,
@@ -212,13 +213,7 @@ class Prepare extends Component {
             elevation: 8,
           }}
         >
-          <CustomPicker
-            selectedMonth={this.state.selectedMonth1}
-            onValueChange={(itemValue) => {
-              this.setState({ selectedMonth1: itemValue });
-            }}
-            months={months}
-          />
+          
           <ScrollView style={{ flex: 1 }}>
             {Object.entries(categoryTotals1).map(([category, total], index) => (
               <ListItem key={index} bottomDivider>
@@ -288,6 +283,13 @@ class Prepare extends Component {
               </ListItem>
             ))}
           </ScrollView>
+          <CustomPicker
+            selectedMonth={this.state.selectedMonth1}
+            onValueChange={(itemValue) => {
+              this.setState({ selectedMonth1: itemValue });
+            }}
+            months={months}
+          />
         </View>
         {/* รวมเงิน */}
         {/* เปรียบเทียบตรงนี้ */}
@@ -301,7 +303,7 @@ class Prepare extends Component {
             borderRadius: 20,
             overflow: "hidden",
             elevation: 8,
-            margin: 21,
+            margin: 12,
             paddingBottom: 10,
             paddingTop: 10,
             borderWidth: 1,
@@ -358,7 +360,7 @@ class Prepare extends Component {
                   
                 }}
               >
-                {showExpense}฿-
+                {showExpense} ฿-
               </Text>
             )}
             {showIncomeView && (
@@ -392,7 +394,7 @@ class Prepare extends Component {
                   paddingTop: 20,
                 }}
               >
-                {showExpense1}฿-
+                {showExpense1} ฿-
                 {showIncomeView && (
               <Text
                 style={{
@@ -402,7 +404,7 @@ class Prepare extends Component {
                   paddingTop: 20,
                 }}
               >
-                {showIncome1}฿
+                {showIncome1} ฿
               </Text>
             )}
               </Text>
@@ -436,7 +438,7 @@ class Prepare extends Component {
         {/* จบเปรียบเทียบ */}
         <View
           style={{
-            height: 200,
+            height: 180,
             width: 370,
             backgroundColor: "white",
             borderRadius: 20,
