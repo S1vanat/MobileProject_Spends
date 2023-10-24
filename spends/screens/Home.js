@@ -147,8 +147,8 @@ class Home extends Component {
               width={275}
               height={15}
               backgroundColor="orange"
-              value={(totalExpense / this.state.budget) * 100}
-              backgroundColorOnComplete="red"
+              value={Math.min((totalExpense / this.state.budget) * 100, 100)}
+              
               borderRadius={5}
               useNativeDriver={true}
             />

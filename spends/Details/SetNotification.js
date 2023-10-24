@@ -125,17 +125,17 @@ class SetNotification extends Component {
           <View style={styles.rowSection}>
             <Text style={{ fontWeight: "bold", padding: 2 }}>ปัจจุบัน:</Text>
             <Text style={{ padding: 2 }}>
-              {totalExpense} bath (
+              {totalExpense} ฿ (
               {((totalExpense / this.state.budget) * 100).toFixed(2)}%)
             </Text>
           </View>
           <View style={styles.rowSection}>
             <Text style={{ fontWeight: "bold", padding: 2 }}>ใช้ได้อีก:</Text>
             <Text style={{ padding: 2 }}>
-              {this.state.budget - totalExpense} bath (
+              {Math.max((this.state.budget - totalExpense), 0)} ฿ (
               {(
-                ((this.state.budget - totalExpense) / this.state.budget) *
-                100
+                (Math.max((this.state.budget - totalExpense) / this.state.budget) *
+                100, 0)
               ).toFixed(2)}
               %)
             </Text>
@@ -143,9 +143,9 @@ class SetNotification extends Component {
           <ProgressBar
             width={294}
             height={15}
-            backgroundColor="dodgerblue"
-            value={(totalExpense / this.state.budget) * 100}
-            backgroundColorOnComplete="red"
+            backgroundColor="orange"
+            value={Math.min((totalExpense / this.state.budget) * 100, 100)}
+            
             borderRadius={5}
             useNativeDriver={true}
           />
