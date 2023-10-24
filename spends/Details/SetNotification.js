@@ -141,7 +141,7 @@ class SetNotification extends Component {
             </Text>
           </View>
           <ProgressBar
-            width={294}
+            width={268}
             height={15}
             backgroundColor="orange"
             value={Math.min((totalExpense / this.state.budget) * 100, 100)}
