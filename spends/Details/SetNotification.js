@@ -134,8 +134,7 @@ class SetNotification extends Component {
             <Text style={{ padding: 2 }}>
               {Math.max((this.state.budget - totalExpense), 0)} ฿ (
               {(
-                (Math.max((this.state.budget - totalExpense) / this.state.budget) *
-                100, 0)
+                Math.min(Math.max((this.state.budget - totalExpense) / this.state.budget * 100, 0), 100)
               ).toFixed(2)}
               %)
             </Text>
