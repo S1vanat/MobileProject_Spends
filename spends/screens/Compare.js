@@ -111,7 +111,7 @@ class Prepare extends Component {
       { label: "กุมภาพันธ์", value: "February" },
       { label: "มีนาคม", value: "March" },
       { label: "เมษายน", value: "April" },
-      { label: "พฏษภาคม", value: "May" },
+      { label: "พฤษภาคม", value: "May" },
       { label: "มิถุนายน", value: "June" },
       { label: "กรกฏาคม", value: "July" },
       { label: "สิงหาคม", value: "August" },
