@@ -64,6 +64,26 @@ class Notification extends Component {
     this.unsubscribe = this.subjCollection.onSnapshot(this.getCollection);
   }
 
+  componentDidUpdate() {
+    setTimeout(() => {
+      this.subjDoc = firebase
+      .firestore()
+      .collection("Budget")
+      .doc("cyX7uvJ70PVdlU1ZayeR");
+    this.subjDoc.get().then((res) => {
+      if (res.exists) {
+        const subj = res.data();
+        this.setState({
+          key: res.id,
+          budget: subj.budget,
+        });
+      } else {
+        console.log("Document does not exist!!");
+      }
+    });
+    }, 1000);
+  }
+
   componentWillUnmount() {
     this.unsubscribe();
   }
