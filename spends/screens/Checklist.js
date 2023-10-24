@@ -280,10 +280,7 @@ class Checklist extends Component {
                     <ListItem
                       key={i}
                       bottomDivider
-                      // containerStyle={{
-                      //   backgroundColor:
-                      //     item.type === "รายจ่าย" ? "#fcc7c2" : "#ccfccf",
-                      // }}
+                    
                     >
                       <Modal
                         visible={this.state.isModalVisible}
@@ -559,7 +556,7 @@ class Checklist extends Component {
             backgroundColor="orange"
             value={expensePercentage}
             backgroundColorOnComplete="red"
-            useNativeDriver={true}
+            useNativeDriver={false}
             borderColor="black" // สีของกรอบ
             borderWidth={1} // ความหนาของกรอบ
           />

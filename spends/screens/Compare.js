@@ -211,6 +211,7 @@ class Prepare extends Component {
             overflow: "hidden",
             alignSelf: "center",
             elevation: 8,
+            flex:1
           }}
         >
           
@@ -298,7 +299,7 @@ class Prepare extends Component {
             alignItems: "center",
             justifyContent: "center",
             height: 200,
-            width: 370,
+            width: '94%',
             backgroundColor: "white",
             borderRadius: 20,
             overflow: "hidden",
@@ -307,13 +308,14 @@ class Prepare extends Component {
             paddingBottom: 10,
             paddingTop: 10,
             borderWidth: 1,
+            flex:1
           }}
         >
           <Text style={{ textAlign: "center", padding: 5 }}>
             {expensePercentage.toFixed(2)}%
           </Text>
           <ProgressBar
-            width={250}
+            width={210}
             height={20}
             backgroundColor="orange"
             value={expensePercentage}
@@ -328,6 +330,7 @@ class Prepare extends Component {
               height: 1,
               width: "100%",
               backgroundColor: "black",
+              
             }}
           />
           <Ionicons
@@ -411,7 +414,7 @@ class Prepare extends Component {
             )}
           </View>
           <ProgressBar
-            width={250}
+            width={210}
             height={20}
             backgroundColor="orange"
             value={expensePercentage1}
@@ -446,6 +449,7 @@ class Prepare extends Component {
             overflow: "hidden",
             alignSelf: "center",
             elevation: 8,
+            flex:1
           }}
         >
           <CustomPicker

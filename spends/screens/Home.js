@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,  useEffect  } from "react";
 import {
   View,
   Text,
@@ -68,6 +68,7 @@ class Home extends Component {
     });
     this.unsubscribe = this.saveCollection.onSnapshot(this.getCollection);
   }
+ 
 
   componentWillUnmount() {
     this.unsubscribe();

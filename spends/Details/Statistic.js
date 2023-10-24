@@ -211,7 +211,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>มกราคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -235,7 +235,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>กุมภาพันธ์</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -259,7 +259,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>มีนาคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -282,7 +282,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>เมษายน</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -305,7 +305,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>พฏษภาคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={(this.totalExpense("May") / this.totalIncome("May")) * 100}
@@ -326,7 +326,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>มิถุนายน</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -349,7 +349,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>กรกฏาคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -372,7 +372,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>สิงหาคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -395,7 +395,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>กันยายน</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -421,7 +421,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>ตุลาคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -445,7 +445,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>พฤษจิกายน</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={
@@ -469,7 +469,7 @@ class Statistic extends Component {
           <View style={styles.graph}>
             <Text style={styles.textMonth}>ธันวาคม</Text>
             <ProgressBar
-              width={190}
+              width={170}
               height={15}
               backgroundColor="orange"
               value={

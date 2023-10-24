@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Button,
+  Text
 } from "react-native";
 import firebase from "../database/firebaseDB";
 import moment from "moment";
@@ -59,19 +60,7 @@ class Addrecord extends Component {
   };
 
   // ให้ผู้ใช้ป้อนหมวดหมู่ใหม่
-  renderAddCategoryInput = () => {
-    return (
-      <View>
-        <TextInput
-          style={[styles.input, { width: "100%" }]}
-          value={this.state.newCategory}
-          onChangeText={(text) => this.setState({ newCategory: text })}
-          placeholder="เพิ่มหมวดหมู่ใหม่"
-        />
-        <Button style={{borderRadius:10}} title="เพิ่ม" onPress={this.addNewCategory} />
-      </View>
-    );
-  };
+  
 
   inputValueUpdate = (val, prop) => {
     const state = this.state;
@@ -162,6 +151,7 @@ class Addrecord extends Component {
         </View>
 
         {/* ดรอปดาวของหมวดหมู่เพิ่มรายการ */}
+        <View style={styles.rowSection}>
         <Picker
           selectedValue={this.state.category}
           onValueChange={(itemValue, itemIndex) =>
@@ -173,8 +163,24 @@ class Addrecord extends Component {
             <Picker.Item key={index} label={category} value={category} />
           ))}
         </Picker>
-        <View>{this.renderAddCategoryInput()}</View>
-
+        <View>
+        <TextInput
+          style={[styles.input, { width: "100%" }]}
+          value={this.state.newCategory}
+          onChangeText={(text) => this.setState({ newCategory: text })}
+          placeholder="เพิ่มหมวดหมู่ใหม่"
+        />
+        
+      </View>
+      </View>
+      
+      <TouchableOpacity style={[
+              styles.button,
+              {
+                backgroundColor: "dodgerblue",
+              },
+            ]}onPress={this.addNewCategory}><Text style={{color:'white'}}>เพิ่ม</Text></TouchableOpacity>
+        
         <TextInput
           style={styles.input}
           editable

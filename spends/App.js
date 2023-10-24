@@ -28,7 +28,7 @@ function HomeStack() {
         headerTitleAlign: "center",
       }}
     >
-      <HomeNavigator.Screen name="หน้าหลัก" component={Home} />
+      <HomeNavigator.Screen name="Spends" component={Home} />
       <HomeNavigator.Screen name="สถิติในแต่ละเดือน" component={Statistic} />
     </HomeNavigator.Navigator>
   );
@@ -61,7 +61,7 @@ function SetNotiStack() {
         headerTitleAlign: "center",
       }}
     >
-      <SetNotiNavigator.Screen name="การแจ้งเตือน" component={Notification} />
+      <SetNotiNavigator.Screen name="แจ้งเตือน" component={Notification} />
       <SetNotiNavigator.Screen
         name="แก้ไขการแจ้งเตือน"
         component={SetNotification}
