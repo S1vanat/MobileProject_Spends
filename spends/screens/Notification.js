@@ -81,7 +81,7 @@ class Notification extends Component {
         console.log("Document does not exist!!");
       }
     });
-    }, 1000);
+    }, 100);
   }
 
   componentWillUnmount() {
