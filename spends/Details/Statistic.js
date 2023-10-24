@@ -303,7 +303,7 @@ class Statistic extends Component {
 
           {/* เดือน 5 */}
           <View style={styles.graph}>
-            <Text style={styles.textMonth}>พฏษภาคม</Text>
+            <Text style={styles.textMonth}>พฤษภาคม</Text>
             <ProgressBar
               width={170}
               height={15}
